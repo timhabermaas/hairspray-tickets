@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class="span8" ng-controller="SeatingCtrl">
+      <ol class="rows">
+        <li ng-repeat="row in rows()">
+          <p class="seat-number">
+            {{row}}
+          </p>
+          <ol class="seats">
+            <li ng-repeat="seat in seats | filter: {row: row}">
+              {{seat.seat}}
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </div>
+    <div class="span4" ng-controller="OrderListCtrl">
+      <div>
+        <ul class="nav nav-tabs">
+          <li ng-repeat="filter in filters" ng-class="{active: filter === currentFilter}">
+            <a href="#" ng-click="selectFilter(filter)">{{filter}}</a>
+          </li>
+        </ul>
+        <ul class="orders dropdown-menu" role="menu">
+          <li ng-repeat="order in orders" ng-click="select(order)" ng-class="{selected: order === selectedOrder}">
+            <a>{{order.name}}</a>
+          </li>
+        </ul>
+
+        <button class="btn btn-primary">Neu</button>
+      </div>
+    </div>
+  </div>
+</div>
