@@ -3,7 +3,7 @@ Array::unique = ->
   output[@[key]] = @[key] for key in [0...@length]
   value for key, value of output
 
-app.controller "PageCtrl", ($scope, Order) -> # TODO add selectedOrder as a service (selectedItem)?
+app.controller "PageCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add selectedOrder as a service (selectedItem)?
   $scope.selectOrder = (order) ->
     $scope.selectedOrder = order
 
@@ -30,8 +30,9 @@ app.controller "PageCtrl", ($scope, Order) -> # TODO add selectedOrder as a serv
       #save to service
 
   $scope.newOrder()
+]
 
-app.controller "OrderListCtrl", ($scope, Order) ->
+app.controller "OrderListCtrl", ["$scope", "Order", ($scope, Order) ->
   #$scope.orders = [
   #    { name: "Peter Mustermann", seats: [2, 4], reduced: 2, full: 4 }
   #    { name: "Dieter Heinzelmann", seats: [], reduced: 2, full: 4 }
@@ -42,8 +43,9 @@ app.controller "OrderListCtrl", ($scope, Order) ->
   $scope.currentFilter = "Alle"
   $scope.selectFilter = (filter) ->
     $scope.currentFilter = filter
+]
 
-app.controller "SeatingCtrl", ($scope) ->
+app.controller "SeatingCtrl", ["$scope", "Order", ($scope) ->
   $scope.seats = [
                   {id: 1, row: 1, seat: 1}
                   {id: 2, row: 1, seat: 2}
@@ -54,3 +56,4 @@ app.controller "SeatingCtrl", ($scope) ->
 
   $scope.rows = ->
     (seat.row for seat in $scope.seats).unique().reverse()
+]
