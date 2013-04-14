@@ -1,4 +1,5 @@
-<div class="container">
+<div class="container" ng-controller="PageCtrl">
+  {{selectedOrder}}
   <div class="row">
     <div class="span8" ng-controller="SeatingCtrl">
       <ol class="rows">
@@ -8,12 +9,27 @@
           </p>
           <ol class="seats">
             <li ng-repeat="seat in seats | filter: {row: row}">
-              {{seat.seat}}
+              <div class="seat" ng-class="{selected: seatSelected(seat)}" ng-click="chooseSeat(seat)">
+                {{seat.seat}}
+              </div>
             </li>
           </ol>
         </li>
       </ol>
+      <form class="well">
+        <fieldset>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" ng-model="selectedOrder.name">
+          <label for="full">Voll-Karten</label>
+          <input name="full" type="number" ng-model="selectedOrder.full">
+          <label for="reduced">ermäßigte Karten</label>
+          <input id="reduced" name="reduced" type="number" ng-model="selectedOrder.reduced">
+          <button type="submit" class="btn btn-primary" ng-click="save()">Speichern</button>
+        </fieldset>
+      </form>
     </div>
+
+
     <div class="span4" ng-controller="OrderListCtrl">
       <div>
         <ul class="nav nav-tabs">
@@ -21,9 +37,9 @@
             <a href="#" ng-click="selectFilter(filter)">{{filter}}</a>
           </li>
         </ul>
-        <ul class="orders dropdown-menu" role="menu">
-          <li ng-repeat="order in orders" ng-click="select(order)" ng-class="{selected: order === selectedOrder}">
-            <a>{{order.name}}</a>
+        <ul class="orders">
+          <li ng-repeat="order in orders" ng-click="selectOrder(order)" ng-class="{selected: order === selectedOrder}">
+            {{order.name}}
           </li>
         </ul>
 

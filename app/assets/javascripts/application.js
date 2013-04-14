@@ -14,4 +14,5 @@
 //= require angular-resource
 //= require app
 //= require controllers
+//= require services
 //= require filters
