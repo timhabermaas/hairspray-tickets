@@ -11,7 +11,7 @@ app.controller "OrdersCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add s
     seat.id in $scope.selectedOrder.seats
 
   $scope.newOrder = ->
-    $scope.selectedOrder = { seats: [], full: 0, reduced: 0 }
+    $scope.selectedOrder = { seats: [], reduced: 0 }
 
   $scope.reservedSeats = ->
     result = (order.seats for order in $scope.orders)
