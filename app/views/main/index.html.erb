@@ -1,4 +1,4 @@
-<div class="container" ng-controller="PageCtrl">
+<div class="container" ng-controller="OrdersCtrl">
   {{selectedOrder}}
   <div class="row">
     <div class="span8" ng-controller="SeatingCtrl">
@@ -9,7 +9,7 @@
           </p>
           <ol class="seats">
             <li ng-repeat="seat in seats | filter: {row: row}">
-              <div class="seat" ng-class="{selected: seatSelected(seat)}" ng-click="chooseSeat(seat)">
+              <div class="seat" ng-class="{selected: seatSelected(seat), reserved: seatReserved(seat)}" ng-click="chooseSeat(seat)">
                 {{seat.seat}}
               </div>
             </li>
@@ -30,7 +30,7 @@
     </div>
 
 
-    <div class="span4" ng-controller="OrderListCtrl">
+    <div class="span4">
       <div>
         <ul class="nav nav-tabs">
           <li ng-repeat="filter in filters" ng-class="{active: filter === currentFilter}">

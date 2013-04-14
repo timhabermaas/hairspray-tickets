@@ -24,6 +24,9 @@
   .seat.selected {
     border-color: red;
   }
+  .seat.reserved {
+    background-color: green;
+  }
   li:hover {
     cursor: pointer;
   }
