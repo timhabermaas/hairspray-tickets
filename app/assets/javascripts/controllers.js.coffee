@@ -60,7 +60,7 @@ app.controller "OrdersCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add s
   $scope.rows = ->
     (seat.row for seat in $scope.seats).unique().reverse()
 
-  $scope.filters = ["Alle", "Noch nicht bezahlt"]
+  $scope.filters = ["Alle", "Nicht bezahlt für > 1 Woche "]
   $scope.currentFilter = "Alle"
   $scope.selectFilter = (filter) ->
     $scope.currentFilter = filter

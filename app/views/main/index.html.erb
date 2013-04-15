@@ -22,6 +22,26 @@
             {{seat.row}}
           </li>
         </ul>
+        <table class="table bill">
+          <thead>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{selectedOrder.seats.length - selectedOrder.reduced}} Karten</td>
+              <td class="price">23,00€</td>
+            </tr>
+            <tr>
+              <td>{{selectedOrder.reduced}} ermäßigte Karten</td>
+              <td class="price">12,00€</td>
+            </tr>
+          </tbody>
+          <tfooter>
+            <tr>
+              <th></th>
+              <th class="price">40,00€</th>
+            </tr>
+          </tfooter>
+        </table>
         <form>
           <fieldset>
             <label for="name">Name</label>
@@ -41,9 +61,14 @@
             <a href="#" ng-click="selectFilter(filter)">{{filter}}</a>
           </li>
         </ul>
-        <ul class="orders">
-          <li ng-repeat="order in orders" ng-click="selectOrder(order)" ng-class="{selected: order === selectedOrder}">
-            {{order.name}} <span class="badge" ng-class="{'badge-success': order.paid}">{{order.seats.length}}</span>
+        <ul class="orders nav nav-tabs nav-stacked">
+          <li ng-repeat="order in orders" ng-click="selectOrder(order)" ng-class="{active: order === selectedOrder}">
+            <a href="#">
+              {{order.name}}
+              <span class="badge" ng-class="{'badge-success': order.paid}">
+                {{order.seats.length}}
+              </span>
+            </a>
           </li>
         </ul>
 
