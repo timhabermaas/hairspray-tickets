@@ -25,7 +25,7 @@ app.controller "OrdersCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add s
       i = $scope.selectedOrder.seats.indexOf(seat.id)
       $scope.selectedOrder.seats.splice(i, 1)
     else
-      $scope.selectedOrder.seats.push(seat.id)
+      $scope.selectedOrder.seats.push(seat.id) unless seat.reserved
 
   $scope.save = ->
     if $scope.selectedOrder.id == undefined
@@ -38,15 +38,6 @@ app.controller "OrdersCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add s
 
   $scope.orders = Order.query()
 
-  $scope.filters = ["Alle", "Reserviert", "Bezahlt"]
-  $scope.currentFilter = "Alle"
-  $scope.selectFilter = (filter) ->
-    $scope.currentFilter = filter
-
-  $scope.newOrder()
-]
-
-app.controller "SeatingCtrl", ["$scope", "Order", ($scope) ->
   $scope.seats = [
                   {id: 1, row: 1, seat: 1}
                   {id: 2, row: 1, seat: 2}
@@ -55,6 +46,17 @@ app.controller "SeatingCtrl", ["$scope", "Order", ($scope) ->
                   {id: 5, row: 2, seat: 2}
                 ]
 
+  $scope.$watch("orders", (newValue, oldValue) ->
+    $scope.seats = ({id: seat.id, row: seat.row, seat: seat.seat, reserved: $scope.seatReserved(seat), paid: $scope.seatPaid(seat)} for seat in $scope.seats)
+  , true)
+
   $scope.rows = ->
     (seat.row for seat in $scope.seats).unique().reverse()
+
+  $scope.filters = ["Alle", "Reserviert", "Bezahlt"]
+  $scope.currentFilter = "Alle"
+  $scope.selectFilter = (filter) ->
+    $scope.currentFilter = filter
+
+  $scope.newOrder()
 ]

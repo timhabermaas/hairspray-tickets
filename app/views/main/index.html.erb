@@ -1,7 +1,7 @@
 <div class="container" ng-controller="OrdersCtrl">
   {{selectedOrder}}
   <div class="row">
-    <div class="span8" ng-controller="SeatingCtrl">
+    <div class="span8">
       <ol class="rows">
         <li ng-repeat="row in rows()">
           <p class="seat-number">
@@ -9,7 +9,7 @@
           </p>
           <ol class="seats">
             <li ng-repeat="seat in seats | filter: {row: row}">
-              <div class="seat" ng-class="{selected: seatSelected(seat), reserved: seatReserved(seat)}" ng-click="chooseSeat(seat)">
+              <div class="seat" ng-class="{selected: seatSelected(seat), reserved: seat.reserved}" ng-click="chooseSeat(seat)">
                 {{seat.seat}}
               </div>
             </li>
@@ -34,7 +34,6 @@
       </div>
     </div>
 
-
     <div class="span4">
       <div>
         <ul class="nav nav-tabs">
@@ -44,7 +43,7 @@
         </ul>
         <ul class="orders">
           <li ng-repeat="order in orders" ng-click="selectOrder(order)" ng-class="{selected: order === selectedOrder}">
-            {{order.name}}
+            {{order.name}} <span class="badge" ng-class="{'badge-success': order.paid}">{{order.seats.length}}</span>
           </li>
         </ul>
 
