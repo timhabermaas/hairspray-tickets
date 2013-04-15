@@ -20,6 +20,13 @@ app.controller "OrdersCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add s
   $scope.seatReserved = (seat) ->
     seat.id in $scope.reservedSeats()
 
+  $scope.seatPaid = (seat) ->
+    potentialOrders = (order for order in $scope.orders when seat.id in order.seats)
+    if potentialOrders.length > 0
+      potentialOrders[0].paid
+    else
+      false
+
   $scope.chooseSeat = (seat) ->
     if $scope.seatSelected(seat)
       i = $scope.selectedOrder.seats.indexOf(seat.id)
@@ -53,7 +60,7 @@ app.controller "OrdersCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add s
   $scope.rows = ->
     (seat.row for seat in $scope.seats).unique().reverse()
 
-  $scope.filters = ["Alle", "Reserviert", "Bezahlt"]
+  $scope.filters = ["Alle", "Noch nicht bezahlt"]
   $scope.currentFilter = "Alle"
   $scope.selectFilter = (filter) ->
     $scope.currentFilter = filter

@@ -9,7 +9,7 @@
           </p>
           <ol class="seats">
             <li ng-repeat="seat in seats | filter: {row: row}">
-              <div class="seat" ng-class="{selected: seatSelected(seat), reserved: seat.reserved}" ng-click="chooseSeat(seat)">
+              <div class="seat" ng-class="{selected: seatSelected(seat), reserved: seat.reserved, paid: seat.paid}" ng-click="chooseSeat(seat)">
                 {{seat.seat}}
               </div>
             </li>
