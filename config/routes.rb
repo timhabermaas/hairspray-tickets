@@ -1,6 +1,12 @@
 HairsprayTickets::Application.routes.draw do
   root to: "main#index"
 
+  namespace :api do
+    resources :concerts do
+      resources :orders
+    end
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
