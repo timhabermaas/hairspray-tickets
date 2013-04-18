@@ -3,7 +3,11 @@ Array::unique = ->
   output[@[key]] = @[key] for key in [0...@length]
   value for key, value of output
 
-app.controller "OrdersCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add selectedOrder as a service (selectedItem)?
+app.controller "GigListCtrl", ["$scope", ($scope) ->
+  $scope.gigs = [{title: "muh", id: 2}]
+]
+
+app.controller "GigCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add selectedOrder as a service (selectedItem)?
   $scope.selectOrder = (order) ->
     $scope.selectedOrder = order
 

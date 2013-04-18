@@ -1,5 +1,5 @@
 class MainController < ApplicationController
   def index
-    render :template => "templates/index.html"
+    render :text => "", :layout => true
   end
 end
