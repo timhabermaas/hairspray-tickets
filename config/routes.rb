@@ -1,6 +1,8 @@
 HairsprayTickets::Application.routes.draw do
   root to: "main#index"
 
+  get "/templates/:path.html" => "templates#file", :constraints => { :path => /.+/ }
+
   namespace :api do
     resources :concerts do
       resources :orders
