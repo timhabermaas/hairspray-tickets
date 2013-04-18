@@ -8,7 +8,6 @@ app.controller "GigListCtrl", ["$scope", "Gig", ($scope, Gig) ->
 ]
 
 app.controller "GigCtrl", ["$scope", "$routeParams", "Order", "Gig", ($scope, $routeParams, Order, Gig) -> # TODO add selectedOrder as a service (selectedItem)?
-  console.log $routeParams
   $scope.gig = Gig.get({gigId: $routeParams.gigId})
 
   $scope.selectOrder = (order) ->
