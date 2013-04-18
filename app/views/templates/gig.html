@@ -57,12 +57,12 @@
   <div>
     <ul class="nav nav-tabs">
       <li ng-repeat="filter in filters" ng-class="{active: filter === currentFilter}">
-        <a href="#" ng-click="selectFilter(filter)">{{filter}}</a>
+        <a href="" ng-click="selectFilter(filter)">{{filter}}</a>
       </li>
     </ul>
     <ul class="orders nav nav-tabs nav-stacked">
       <li ng-repeat="order in orders" ng-click="selectOrder(order)" ng-class="{active: order === selectedOrder}">
-        <a href="#">
+        <a href="">
           {{order.name}}
           <span class="badge" ng-class="{'badge-success': order.paid}">
             {{order.seats.length}}
