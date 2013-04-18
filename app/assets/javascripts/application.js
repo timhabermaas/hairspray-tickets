@@ -13,6 +13,7 @@
 //= require angular
 //= require angular-resource
 //= require app
-//= require controllers
+//= require resources
 //= require services
 //= require filters
+//= require controllers

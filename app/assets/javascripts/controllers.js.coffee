@@ -3,11 +3,14 @@ Array::unique = ->
   output[@[key]] = @[key] for key in [0...@length]
   value for key, value of output
 
-app.controller "GigListCtrl", ["$scope", ($scope) ->
-  $scope.gigs = [{title: "muh", id: 2}]
+app.controller "GigListCtrl", ["$scope", "Gig", ($scope, Gig) ->
+  $scope.gigs = Gig.query()
 ]
 
-app.controller "GigCtrl", ["$scope", "Order", ($scope, Order) -> # TODO add selectedOrder as a service (selectedItem)?
+app.controller "GigCtrl", ["$scope", "$routeParams", "Order", "Gig", ($scope, $routeParams, Order, Gig) -> # TODO add selectedOrder as a service (selectedItem)?
+  console.log $routeParams
+  $scope.gig = Gig.get({gigId: $routeParams.gigId})
+
   $scope.selectOrder = (order) ->
     $scope.selectedOrder = order
 
