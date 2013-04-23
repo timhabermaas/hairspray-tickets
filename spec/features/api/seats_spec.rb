@@ -12,10 +12,13 @@ describe "/seats" do
 
     get "/api/seats.json"
     response = JSON.parse(last_response.body)
-    p response
 
-    expect(response[1]["y"]).to eq(4)
-    expect(response[0]["seats"][1]["number"]).to eq(2)
-    expect(response[0]["seats"][2]["number"]).to eq(3)
+    expect(response[0]["number"]).to eq(1)
+    expect(response[0]["x"]).to eq(0)
+
+    expect(response[3]["number"]).to eq(2)
+    expect(response[3]["x"]).to eq(0)
+
+    expect(response[1]["row"]["number"]).to eq(1)
   end
 end

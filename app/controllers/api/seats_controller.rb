@@ -1,5 +1,7 @@
 class Api::SeatsController < ApplicationController
+  respond_to :json
+
   def index
-    @rows = Row.all
+    @seats = Seat.all
   end
 end

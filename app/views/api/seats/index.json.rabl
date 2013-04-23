@@ -1,6 +1,6 @@
-collection @rows
+collection @seats
 
-attributes :id, :y, :number
-child :seats do
-  attributes :id, :x, :number
+attributes :id, :x, :number
+child :row do
+  attributes :id, :y, :number
 end
