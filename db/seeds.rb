@@ -17,18 +17,18 @@ Row.create! y: 16, number: 1
 first_row = Row.where(:number => 1).first
 second_row = Row.where(:number => 2).first
 
+18.times do |i|
+  Seat.create! x: 15 + i, number: 1 + i, row: first_row
+end
+12.times do |i|
+  Seat.create! x: 36 + i, number: 19 + i, row: first_row
+end
+
 24.times do |i|
   Seat.create! x: 9 + i, number: 1 + i, row: second_row
 end
 12.times do |i|
   Seat.create! x: 36 + i, number: 25 + i, row: second_row
-end
-
-18.times do |i|
-  Seat.create! x: 15 + i, number: 1 + i, row: first_row
-end
-12.times do |i|
-  Seat.create! x: 36 + i, number: 25 + i, row: first_row
 end
 
 
