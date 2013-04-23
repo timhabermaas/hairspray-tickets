@@ -7,6 +7,15 @@ app.controller "GigListCtrl", ["$scope", "Gig", ($scope, Gig) ->
   $scope.gigs = Gig.query()
 ]
 
+app.controller "SeatsCtrl", ["$scope", "Seat", ($scope, Seat) ->
+  $scope.seats = Seat.query()
+
+  $scope.$watch("seats", ->
+    $scope.rows = _.groupBy $scope.seats, (s) ->
+      s.row.y
+  , true)
+]
+
 app.controller "GigCtrl", ["$scope", "$routeParams", "GigOrder", "Gig", ($scope, $routeParams, GigOrder, Gig) -> # TODO add selectedOrder as a service (selectedItem)?
   $scope.gig = Gig.get({id: $routeParams.gigId})
   $scope.orders = GigOrder.query({gigId: $routeParams.gigId})

@@ -1,20 +1,16 @@
 <h1>{{gig.title}}</h1>
 
-<div class="span8">
-  <ol class="rows">
-    <li ng-repeat="row in rows()">
-      <p class="seat-number">
-        {{row}}
-      </p>
-      <ol class="seats">
-        <li ng-repeat="seat in seats | filter: {row: row}">
-          <div class="seat" ng-class="{selected: seatSelected(seat), reserved: seat.reserved, paid: seat.paid}" ng-click="chooseSeat(seat)">
-            {{seat.seat}}
-          </div>
-        </li>
-      </ol>
-    </li>
-  </ol>
+<div class="span12">
+  <svg class="seat-plan" width="1000" height="500" ng-controller="SeatsCtrl">
+    <g transform="translate(1, 1)">
+      <g ng-repeat="(row, seats) in rows" transform="translate(0, {{row * 25}})">
+        <g ng-repeat="seat in seats" transform="translate({{seat.x * 18}}, 0)">
+          <rect width="18" height="18" style="fill:rgba(0,0,0,0);stroke-width: 1; stroke: rgb(0, 0, 0)"></rect>
+          <text x="9" y="13" style="font-size: 11px" text-anchor="middle">{{seat.number}}</text>
+        </g>
+      </g>
+    </g>
+  </svg>
   <div class="well" ng-controller="OrderDetailsCtrl" ng-show="order">
     <ul>
       <li ng-repeat="seat in order.seats">

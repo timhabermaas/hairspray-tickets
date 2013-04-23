@@ -11,3 +11,7 @@ app.factory "Order", ["$resource", ($resource) ->
 app.factory "GigOrder", ["$resource", ($resource) ->
   $resource "api/gigs/:gigId/orders/:id", commonParameters...
 ]
+
+app.factory "Seat", ["$resource", ($resource) ->
+  $resource "api/seats.json"
+]
