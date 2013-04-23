@@ -5,6 +5,7 @@ HairsprayTickets::Application.routes.draw do
 
   namespace :api do
     resources :orders
+    resources :seats
     resources :gigs do
       resources :orders
     end
