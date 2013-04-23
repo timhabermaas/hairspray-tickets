@@ -7,69 +7,47 @@ app.controller "GigListCtrl", ["$scope", "Gig", ($scope, Gig) ->
   $scope.gigs = Gig.query()
 ]
 
-app.controller "GigCtrl", ["$scope", "$routeParams", "Order", "Gig", ($scope, $routeParams, Order, Gig) -> # TODO add selectedOrder as a service (selectedItem)?
-  $scope.gig = Gig.get({gigId: $routeParams.gigId})
+app.controller "GigCtrl", ["$scope", "$routeParams", "GigOrder", "Gig", ($scope, $routeParams, GigOrder, Gig) -> # TODO add selectedOrder as a service (selectedItem)?
+  $scope.gig = Gig.get({id: $routeParams.gigId})
+  $scope.orders = GigOrder.query({gigId: $routeParams.gigId})
+
+#  if $routeParams.orderId
+#    $scope.currentOrder = Order.get({orderId: $routeParams.orderId}) # TODO remove dependency by looking through orders array
 
   $scope.selectOrder = (order) ->
-    $scope.selectedOrder = order
+    $scope.currentOrder = order
+  $scope.orderSelected = (order) ->
+    $scope.currentOrder == order
+]
 
-  $scope.seatSelected = (seat) ->
-    seat.id in $scope.selectedOrder.seats
+app.controller "OrderListCtrl", ["$scope", "$routeParams", "GigOrder", ($scope, $routeParams, GigOrder) ->
+  $scope.orders = GigOrder.query({gigId: $routeParams.gigId})
 
-  $scope.newOrder = ->
-    $scope.selectedOrder = { seats: [], reduced: 0 }
+  $scope.orderUrl = (order) ->
+    "#/auftritte/#{$routeParams.gigId}/orders/#{order.id}"
 
-  $scope.reservedSeats = ->
-    result = (order.seats for order in $scope.orders)
-    [].concat result...
-
-  $scope.seatReserved = (seat) ->
-    seat.id in $scope.reservedSeats()
-
-  $scope.seatPaid = (seat) ->
-    potentialOrders = (order for order in $scope.orders when seat.id in order.seats)
-    if potentialOrders.length > 0
-      potentialOrders[0].paid
-    else
-      false
-
-  $scope.chooseSeat = (seat) ->
-    if $scope.seatSelected(seat)
-      i = $scope.selectedOrder.seats.indexOf(seat.id)
-      $scope.selectedOrder.seats.splice(i, 1)
-    else
-      $scope.selectedOrder.seats.push(seat.id) unless seat.reserved
-
-  $scope.save = ->
-    if $scope.selectedOrder.id == undefined
-      # add to server
-      Order.add($scope.selectedOrder)
-      $scope.newOrder()
-    else
-      # add to list
-      #save to service
-
-  $scope.orders = Order.query()
-
-  $scope.seats = [
-                  {id: 1, row: 1, seat: 1}
-                  {id: 2, row: 1, seat: 2}
-                  {id: 3, row: 1, seat: 3}
-                  {id: 4, row: 2, seat: 1}
-                  {id: 5, row: 2, seat: 2}
-                ]
-
-  $scope.$watch("orders", (newValue, oldValue) ->
-    $scope.seats = ({id: seat.id, row: seat.row, seat: seat.seat, reserved: $scope.seatReserved(seat), paid: $scope.seatPaid(seat)} for seat in $scope.seats)
-  , true)
-
-  $scope.rows = ->
-    (seat.row for seat in $scope.seats).unique().reverse()
-
-  $scope.filters = ["Alle", "Nicht bezahlt für > 1 Woche "]
-  $scope.currentFilter = "Alle"
+  $scope.filters = [{name: "Alle", f: "{}"}, {name: "Nicht bezahlt", f: "notPaid"}]
+  $scope.currentFilter = $scope.filters[0]
   $scope.selectFilter = (filter) ->
     $scope.currentFilter = filter
+]
 
-  $scope.newOrder()
+app.controller "OrderDetailsCtrl", ["$scope", "Order", ($scope, Order) ->
+  $scope.$watch "currentOrder", () ->
+    $scope.order = $scope.currentOrder
+
+  $scope.save = () ->
+    Order.update $scope.order
+]
+
+app.controller "OrderBillCtrl", ["$scope", "Order", "Gig",  ($scope, Order, Gig) ->
+  $scope.normalPrice = () ->
+    if $scope.order
+      ($scope.order.seats.length - $scope.order.reduced) * 15
+  $scope.reducedPrice = () ->
+    if $scope.order
+      $scope.order.reduced * 12
+  $scope.sum = () ->
+    if $scope.order # TODO duplication/ugliness
+      $scope.normalPrice() + $scope.reducedPrice()
 ]
