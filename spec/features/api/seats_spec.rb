@@ -13,12 +13,10 @@ describe "/api/seats" do
     get "/api/seats.json"
     response = JSON.parse(last_response.body)
 
-    expect(response[0]["number"]).to eq(1)
-    expect(response[0]["x"]).to eq(0)
+    seat_numbers = response.map { |s| s["number"] }.sort
+    expect(seat_numbers).to eq([1, 2, 2, 3])
 
-    expect(response[3]["number"]).to eq(2)
-    expect(response[3]["x"]).to eq(0)
-
-    expect(response[1]["row"]["number"]).to eq(1)
+    rows = response.map { |s| s["row"]["number"] }.uniq.sort
+    expect(rows).to eq([1, 2])
   end
 end
