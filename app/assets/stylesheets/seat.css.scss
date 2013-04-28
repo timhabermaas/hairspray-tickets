@@ -1,4 +1,4 @@
-.rows {
+/*.rows {
   list-style-type: none;
   p {
     display: inline-block;
@@ -32,6 +32,13 @@
     background-color: #b94a48;
   }
   li:hover {
+    cursor: pointer;
+  }
+}
+*/
+
+.seating-plan {
+  .seat, .seat text {
     cursor: pointer;
   }
 }

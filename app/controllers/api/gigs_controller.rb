@@ -2,7 +2,7 @@ class Api::GigsController < ApplicationController
   respond_to :json
 
   def index
-    render :json => Gig.all
+    @gigs = Gig.all
   end
 
   def show

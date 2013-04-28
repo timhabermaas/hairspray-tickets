@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="span12">
+    <svg class="seating-plan" width="1000" height="500">
+      <g transform="translate(1, 1)">
+        <g ng-repeat="(row, seats) in rows" transform="translate(0, {{row * 25}})">
+          <g class="seat" ng-repeat="seat in seats" transform="translate({{seat.x * 18}}, 0)">
+            <rect width="18" height="18" style="fill:rgba(0,0,0,0);stroke-width: 1; stroke: rgb(0, 0, 0)" ng-click="selectSeat(seat)"></rect>
+            <text x="9" y="13" style="font-size: 11px" ng-click="selectSeat(seat)" text-anchor="middle" ng-show="seat.usable">{{seat.number}}</text>
+          </g>
+        </g>
+      </g>
+      <g transform="translate(1, 1)">
+        <g ng-repeat="order in orders">
+          <rect ng-repeat="seat in order.seats" x="{{seat.x * 18}}" y="{{seat.row.y * 25}}" width="18" height="18" class="seat" style="fill:{{fillColor(order)}}; stroke:{{strokeColor(order)}}" ng-click="deselectSeat(seat)"></rect>
+        </g>
+      </g>
+    </svg>
+  </div>
+</div>

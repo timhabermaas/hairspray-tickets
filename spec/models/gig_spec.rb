@@ -17,4 +17,15 @@ describe Gig do
       expect(subject.errors[:date]).to_not be_blank
     end
   end
+
+  describe "#free_seats" do
+    let(:orders) { [stub(:order, :seats_count => 4),
+                    stub(:order, :seats_count => 10)] }
+
+    it "returns 6 if two orders have reserved 4 and 10 seats respectively" do
+      Seat.should_receive(:usuable_count).and_return(20)
+      subject.should_receive(:orders).and_return orders
+      expect(subject.free_seats).to eq(6)
+    end
+  end
 end

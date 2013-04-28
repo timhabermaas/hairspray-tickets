@@ -17,5 +17,18 @@ describe Order do
       expect(valid_order).to_not be_valid
       expect(valid_order.errors[:reduced_count]).to_not be_blank
     end
+
+    it "can't have a negative count of reduced seats" do
+      valid_order.reduced_count = -1
+      expect(valid_order).to_not be_valid
+      expect(valid_order.errors[:reduced_count]).to_not be_blank
+    end
+  end
+
+  describe "#seats_count" do
+    it "returns the amount of reservations" do
+      subject.should_receive(:reservations_count).and_return(45)
+      expect(subject.seats_count).to eq(45)
+    end
   end
 end

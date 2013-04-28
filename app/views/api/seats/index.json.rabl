@@ -1,6 +1,6 @@
 collection @seats
 
-attributes :id, :x, :number
+attributes :id, :x, :number, :usable
 child :row do
   attributes :y, :number
 end

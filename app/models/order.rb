@@ -1,12 +1,21 @@
 class Order < ActiveRecord::Base
-  attr_accessible :name, :paid_at, :reduced_count, :gig, :seats
+  attr_accessible :name, :paid_at, :reduced_count, :gig, :seats, :seat_ids
 
   validates :name, :presence => true
+  validates :reduced_count, :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
   validate :has_not_more_reduced_seats_than_seats
 
   belongs_to :gig
   has_many :reservations
   has_many :seats, :through => :reservations
+
+  def paid?
+    not paid_at.nil?
+  end
+
+  def seats_count
+    reservations_count
+  end
 
   private
   def has_not_more_reduced_seats_than_seats

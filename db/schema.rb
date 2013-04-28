@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425134258) do
+ActiveRecord::Schema.define(:version => 20130428011605) do
 
   create_table "gigs", :force => true do |t|
     t.string   "title",      :null => false
@@ -21,12 +21,13 @@ ActiveRecord::Schema.define(:version => 20130425134258) do
   end
 
   create_table "orders", :force => true do |t|
-    t.string   "name",                         :null => false
+    t.string   "name",                              :null => false
     t.datetime "paid_at"
-    t.integer  "reduced_count", :default => 0, :null => false
-    t.integer  "gig_id",                       :null => false
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.integer  "reduced_count",      :default => 0, :null => false
+    t.integer  "gig_id",                            :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.integer  "reservations_count", :default => 0, :null => false
   end
 
   create_table "reservations", :force => true do |t|
@@ -44,11 +45,12 @@ ActiveRecord::Schema.define(:version => 20130425134258) do
   end
 
   create_table "seats", :force => true do |t|
-    t.integer  "number",     :null => false
-    t.integer  "x",          :null => false
-    t.integer  "row_id",     :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "number",                       :null => false
+    t.integer  "x",                            :null => false
+    t.integer  "row_id",                       :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.boolean  "usable",     :default => true, :null => false
   end
 
 end

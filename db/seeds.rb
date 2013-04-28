@@ -63,3 +63,6 @@ highest_row = Row.where(:number => 16).first
   Seat.create x: i, number: 1 + i, row: highest_row
   Seat.create x: 33 + i, number: 22 + i, row: highest_row
 end
+
+unusable_seats = Seat.joins(:row).where("rows.number = 16 AND seats.number IN (20, 21) OR rows.number = 15 AND seats.number IN (17, 18) OR rows.number = 14 AND seats.number = 18")
+unusable_seats.update_all(:usable => false)

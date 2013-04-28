@@ -1,6 +1,7 @@
 object @order
 
-attributes :name
+attributes :id, :name, :reduced_count
+node(:paid) { |order| order.paid? }
 
 child :gig do
   attributes :title, :date

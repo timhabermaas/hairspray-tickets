@@ -11,7 +11,22 @@ class Api::OrdersController < ApplicationController
     @order = gig.orders.find params[:id]
   end
 
+  def create
+    gig = Gig.find params[:gig_id]
+    order = gig.orders.build params[:order]
+    if order.save
+      render :json => order
+    else
+      render :json => order.errors, :status => 422
+    end
+  end
+
   def update
-    render :json => params[:order]
+    order = Order.find params[:id]
+    if order.update_attributes params[:order]
+      render :json => order
+    else
+      render :json => order.errors, :status => 422
+    end
   end
 end

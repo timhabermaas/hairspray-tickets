@@ -1,6 +1,10 @@
-<div class="span"
-<ul class="gigs">
+<div class="page-header">
+  <h1>Auftritte</h1>
+</div>
+
+<ul class="gigs nav nav-tabs nav-stacked">
   <li ng-repeat="gig in gigs">
-    <a ng-href="#/auftritte/{{gig.id}}">{{gig.title}}</a>
+    <a ng-href="#/auftritte/{{gig.id}}/orders">{{gig.title}} <small>{{gig.date}}</small> <span class="badge badge-success">{{gig.free_seats}}</span></a>
   </li>
 </ul>
+

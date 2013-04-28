@@ -1,0 +1,68 @@
+<%= render "gig_header" %>
+
+<%= render "seating_plan" %>
+
+<div class="row">
+  <div class="span7">
+    <div class="well" ng-show="selectedOrder != undefined">
+      <div class="alert alert-error" ng-show="selectedOrder.error">
+        Reservierung konnte nicht gespeichert werden!<br />
+        {{selectedOrder.errors}}
+      </div>
+      <ul>
+        <li ng-repeat="seat in selectedOrder.seats | limit:5">
+          {{seat | seatDescription}}
+        </li>
+      </ul>
+      {{selectedOrder.$dirty}}
+      <form>
+        <fieldset>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" ng-model="selectedOrder.name">
+          <label for="reduced">davon ermäßigte Karten</label>
+          <input id="reduced" name="reduced" type="number" ng-model="selectedOrder.reduced_count">
+        </fieldset>
+        <table class="table bill">
+        <thead>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{(selectedOrder.seats.length - selectedOrder.reduced_count)}} reguläre Karten</td>
+            <td class="price">{{selectedOrder | normalPriceSum}},00€</td>
+          </tr>
+          <tr>
+            <td>{{selectedOrder.reduced_count}} ermäßigte Karten</td>
+            <td class="price">{{selectedOrder | reducedPriceSum}},00€</td>
+          </tr>
+        </tbody>
+        <tfooter>
+          <tr>
+            <th></th>
+            <th class="price">{{selectedOrder | priceSum}},00€</th>
+          </tr>
+        </tfooter>
+      </table>
+        <button type="submit" class="btn btn-primary" ng-click="save(selectedOrder)">Speichern</button>
+      </form>
+    </div>
+  </div>
+  <div class="span5" ng-controller="OrderListCtrl">
+    <ul class="nav nav-tabs">
+      <li ng-repeat="filter in filters" ng-class="{active: currentFilter === filter}">
+        <a href="" ng-click="selectFilter(filter)">{{filter.name}}</a>
+      </li>
+    </ul>
+    <ul class="orders nav nav-tabs nav-stacked">
+      <li ng-repeat="order in orders | orderBy:'id':true" ng-class="{active: selectedOrder === order}">
+        <a href="" ng-click="selectOrder(order)">
+          {{order.name}}
+          <span class="badge badge-warning" ng-class="{'badge-success': order.paid}">
+            {{order.seats.length}}
+          </span>
+          <span class="badge badge-error" ng-show="order.id == undefined">Nicht gespeichert</span>
+        </a>
+      </li>
+    </ul>
+    <button class="btn btn-primary" ng-click="newOrder()">Neu</button>
+  </div>
+</div>
