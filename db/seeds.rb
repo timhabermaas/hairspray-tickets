@@ -1,7 +1,11 @@
 Gig.delete_all
 
-5.times do |i|
-  Gig.create title: "#{i + 1}. Auftritt", date: DateTime.new(2013, 6, 5 + i)
+3.times do |i|
+  Gig.create title: "#{i + 1}. Auftritt", date: DateTime.new(2013, 7, 11 + i)
+end
+
+3.times do |i|
+  Gig.create title: "#{i + 4}. Auftritt", date: DateTime.new(2013, 7, 15 + i)
 end
 
 Seat.delete_all
