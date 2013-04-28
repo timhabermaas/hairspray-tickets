@@ -10,6 +10,13 @@ app.filter "limit", ->
   (array, limit) ->
     if array then array[0..limit-1] else []
 
+app.filter "germanDate", ["$filter", ($filter) ->
+  date = $filter "date"
+  (datetime) ->
+    return "" unless datetime
+    "am #{date(datetime, 'd.MM.yyyy')} um #{date(datetime, 'H:mm')} Uhr"
+]
+
 app.filter "seatDescription", ->
   (seat) ->
     "Reihe #{seat.row.number}, Platz #{seat.number}"
@@ -25,8 +32,8 @@ app.filter "reducedPriceSum", ->
     order.reduced_count * 12
 
 app.filter "priceSum", ["$filter", ($filter) ->
-  normalPriceSum = $filter("normalPriceSum")
-  reducedPriceSum = $filter("reducedPriceSum")
+  normalPriceSum = $filter "normalPriceSum"
+  reducedPriceSum = $filter "reducedPriceSum"
   (order) ->
     return 0 unless order
     normalPriceSum(order) + reducedPriceSum(order)
