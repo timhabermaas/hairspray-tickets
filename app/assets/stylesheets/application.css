@@ -10,6 +10,7 @@
  *
  *= require_self
  *= require bootstrap_and_overrides
+ *= require main
  *= require seat
  *= require bill
  */
