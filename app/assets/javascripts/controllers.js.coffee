@@ -63,9 +63,19 @@ app.controller "OrderCtrl", ["$scope", "$routeParams", "$location", "Gig", "GigO
     $scope.orders.push $scope.selectedOrder
     $location.search("order", "")
 
+  $scope.pay = (order) ->
+    order.paid_at = new Date()
+    order.paid = true
+    $scope.save(order)
+
+  $scope.unpay = (order) ->
+    order.paid_at = null
+    order.paid = false
+    $scope.save(order)
+
   $scope.save = (order) ->
     seatIds = _.map(order.seats, (s) -> s.id)
-    params = {order: {name: order.name, seat_ids: seatIds, reduced_count: order.reduced_count}}
+    params = {order: {name: order.name, seat_ids: seatIds, reduced_count: order.reduced_count, paid_at: order.paid_at}}
     if order.id
       $http.put("/api/gigs/#{$scope.gig.id}/orders/#{order.id}.json", params).success((response) ->
         order.error = false
