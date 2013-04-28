@@ -14,7 +14,6 @@
           {{seat | seatDescription}}
         </li>
       </ul>
-      {{selectedOrder.$dirty}}
       <form>
         <fieldset>
           <label for="name">Name</label>
@@ -54,8 +53,12 @@
         <a href="" ng-click="selectFilter(filter)">{{filter.name}}</a>
       </li>
     </ul>
+    <div class="input-prepend">
+      <span class="add-on"><i class="icon-search"></i></span>
+      <input type="search" ng-model="search.name" placeholder="Suche">
+    </div>
     <ul class="orders nav nav-tabs nav-stacked">
-      <li ng-repeat="order in orders | orderBy:'id':true" ng-class="{active: selectedOrder === order}">
+      <li ng-repeat="order in orders | filter:search | orderBy:'id':true" ng-class="{active: selectedOrder === order}">
         <a href="" ng-click="selectOrder(order)">
           {{order.name}}
           <span class="badge badge-warning" ng-class="{'badge-success': order.paid}">
