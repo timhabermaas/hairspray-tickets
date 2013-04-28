@@ -4,17 +4,10 @@ app.controller "GigListCtrl", ["$scope", "Gigs", ($scope, Gigs) ->
 
 app.controller "OrderCtrl", ["$scope", "$routeParams", "$location", "Gig", "GigOrders", "GigOrder", "Seat", "$http", ($scope, $routeParams, $location, Gig, GigOrders, GigOrder, Seat, $http) ->
   $scope.gig = Gig.get({id: $routeParams.gigId})
-  $scope.orders = GigOrders.query({gigId: $routeParams.gigId})
-  #$scope.selectedOrder = {name: "", reduced_count: 0, seats: []}
-
-  #if $location.search().order
-    #$scope.$watch("orders", () ->
-    #  selectedOrder = _.find $scope.orders, (o) -> o.id == $location.search().order
-    #  console.log selectedOrder
-    #  $scope.selectedOrder = selectedOrder if selectedOrder
-    #, true)
-  #else
-  #  $scope.selectedOrder = {name: "muh"}
+  $scope.orders = GigOrders.query({gigId: $routeParams.gigId}, (orders) ->
+    if $location.search().order
+      $scope.selectedOrder = _.find $scope.orders, (o) -> o.id == parseInt($location.search().order)
+  )
 
   $scope.seats = Seat.query()
   $scope.$watch("seats", ->
