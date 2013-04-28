@@ -16,15 +16,18 @@ app.filter "seatDescription", ->
 
 app.filter "normalPriceSum", ->
   (order) ->
+    return 0 unless order
     (order.seats.length - order.reduced_count) * 15
 
 app.filter "reducedPriceSum", ->
   (order) ->
+    return 0 unless order
     order.reduced_count * 12
 
 app.filter "priceSum", ["$filter", ($filter) ->
   normalPriceSum = $filter("normalPriceSum")
   reducedPriceSum = $filter("reducedPriceSum")
   (order) ->
+    return 0 unless order
     normalPriceSum(order) + reducedPriceSum(order)
 ]
