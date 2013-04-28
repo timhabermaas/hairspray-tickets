@@ -3,7 +3,30 @@
 <%= render "seating_plan" %>
 
 <div class="row">
-  <div class="span7">
+  <div class="span4" ng-controller="OrderListCtrl">
+    <ul class="nav nav-tabs">
+      <li ng-repeat="filter in filters" ng-class="{active: currentFilter === filter}">
+        <a href="" ng-click="selectFilter(filter)">{{filter.name}}</a>
+      </li>
+    </ul>
+    <div class="input-prepend">
+      <span class="add-on"><i class="icon-search"></i></span>
+      <input type="search" ng-model="search.name" placeholder="Suche">
+    </div>
+    <ul class="orders nav nav-tabs nav-stacked">
+      <li ng-repeat="order in orders | filter:search | orderBy:'id':true" ng-class="{active: selectedOrder === order}">
+        <a href="" ng-click="selectOrder(order)">
+          {{order.name}}
+          <span class="badge badge-warning" ng-class="{'badge-success': order.paid}">
+            {{order.seats.length}}
+          </span>
+          <span class="badge badge-error" ng-show="order.id == undefined">Nicht gespeichert</span>
+        </a>
+      </li>
+    </ul>
+    <button class="btn btn-primary" ng-click="newOrder()">Neu</button>
+  </div>
+  <div class="span8">
     <div class="well" ng-show="selectedOrder != undefined">
       <div class="alert alert-error" ng-show="selectedOrder.error">
         Reservierung konnte nicht gespeichert werden!<br />
@@ -46,28 +69,5 @@
         <button ng-show="selectedOrder.paid  && selectedOrder.id" class="btn btn-danger" ng-click="unpay(selectedOrder)">Bezahlung widerrufen!</button>
       </form>
     </div>
-  </div>
-  <div class="span5" ng-controller="OrderListCtrl">
-    <ul class="nav nav-tabs">
-      <li ng-repeat="filter in filters" ng-class="{active: currentFilter === filter}">
-        <a href="" ng-click="selectFilter(filter)">{{filter.name}}</a>
-      </li>
-    </ul>
-    <div class="input-prepend">
-      <span class="add-on"><i class="icon-search"></i></span>
-      <input type="search" ng-model="search.name" placeholder="Suche">
-    </div>
-    <ul class="orders nav nav-tabs nav-stacked">
-      <li ng-repeat="order in orders | filter:search | orderBy:'id':true" ng-class="{active: selectedOrder === order}">
-        <a href="" ng-click="selectOrder(order)">
-          {{order.name}}
-          <span class="badge badge-warning" ng-class="{'badge-success': order.paid}">
-            {{order.seats.length}}
-          </span>
-          <span class="badge badge-error" ng-show="order.id == undefined">Nicht gespeichert</span>
-        </a>
-      </li>
-    </ul>
-    <button class="btn btn-primary" ng-click="newOrder()">Neu</button>
   </div>
 </div>
