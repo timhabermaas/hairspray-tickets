@@ -10,6 +10,6 @@ class Gig < ActiveRecord::Base
   end
 
   def free_seats
-    Seat.usuable_count - reserved_seats
+    Seat.usable_count - reserved_seats
   end
 end
