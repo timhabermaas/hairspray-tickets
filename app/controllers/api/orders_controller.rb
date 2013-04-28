@@ -27,6 +27,14 @@ class Api::OrdersController < ApplicationController
     end
   end
 
+  def destroy
+    order = Order.find params[:id]
+
+    order.destroy
+
+    respond_with order
+  end
+
   def pay
     order = gig.orders.find params[:id]
 

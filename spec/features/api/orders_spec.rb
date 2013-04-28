@@ -8,7 +8,7 @@ describe "orders" do
 
   let(:response) { JSON.parse(last_response.body) }
 
-  describe "/api/gigs/:gig_id/orders/:id" do
+  describe "GET /api/gigs/:gig_id/orders/:id" do
     it "returns the order and its reserved seats" do
       get "/api/gigs/#{gig.id}/orders/#{order.id}.json"
 
@@ -18,7 +18,7 @@ describe "orders" do
     end
   end
 
-  describe "/api/gigs/:gig_id/orders/:id/pay" do
+  describe "POST /api/gigs/:gig_id/orders/:id/pay" do
     it "sets paid_at to current time" do
       post "/api/gigs/#{gig.id}/orders/#{order.id}/pay.json"
 
@@ -27,13 +27,21 @@ describe "orders" do
     end
   end
 
-  describe "/api/gigs/:gig_id/orders/:id/unpay" do
+  describe "POST /api/gigs/:gig_id/orders/:id/unpay" do
     it "unsets paid_at" do
       post "/api/gigs/#{gig.id}/orders/#{order.id}/unpay.json"
 
       expect(Order.first).to_not be_paid
       expect(Order.first.paid_at).to be_nil
       expect(response["name"]).to eq("Dieter")
+    end
+  end
+
+  describe "DELETE /api/gigs/:gig_id/orders/:id" do
+    it "removes order" do
+      delete "/api/gigs/#{gig.id}/orders/#{order.id}"
+
+      expect(Order.count).to eq(0)
     end
   end
 end
