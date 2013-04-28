@@ -64,14 +64,14 @@ app.controller "OrderCtrl", ["$scope", "$routeParams", "$location", "Gig", "GigO
     $location.search("order", "")
 
   $scope.pay = (order) ->
-    order.paid_at = new Date()
-    order.paid = true
-    $scope.save(order)
+    $http.post("/api/gigs/#{$scope.gig.id}/orders/#{order.id}/pay.json").success (response) ->
+      order.paid_at = response.paid_at
+      order.paid = true
 
   $scope.unpay = (order) ->
-    order.paid_at = null
-    order.paid = false
-    $scope.save(order)
+    $http.post("/api/gigs/#{$scope.gig.id}/orders/#{order.id}/unpay.json").success (response) ->
+      order.paid_at = response.paid_at
+      order.paid = false
 
   $scope.save = (order) ->
     seatIds = _.map(order.seats, (s) -> s.id)

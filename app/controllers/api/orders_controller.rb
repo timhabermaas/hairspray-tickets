@@ -2,17 +2,14 @@ class Api::OrdersController < ApplicationController
   respond_to :json
 
   def index
-    gig = Gig.find params[:gig_id]
     @orders = gig.orders
   end
 
   def show
-    gig = Gig.find params[:gig_id]
     @order = gig.orders.find params[:id]
   end
 
   def create
-    gig = Gig.find params[:gig_id]
     order = gig.orders.build params[:order]
     if order.save
       render :json => order
@@ -28,5 +25,26 @@ class Api::OrdersController < ApplicationController
     else
       render :json => order.errors, :status => 422
     end
+  end
+
+  def pay
+    order = gig.orders.find params[:id]
+
+    order.update_attributes paid_at: Time.now
+
+    respond_with(:api, gig, order)
+  end
+
+  def unpay
+    order = gig.orders.find params[:id]
+
+    order.update_attributes paid_at: nil
+
+    respond_with(:api, gig, order)
+  end
+
+  private
+  def gig
+    @gig ||= Gig.find params[:gig_id]
   end
 end

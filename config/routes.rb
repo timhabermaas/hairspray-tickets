@@ -4,10 +4,12 @@ HairsprayTickets::Application.routes.draw do
   get "/templates/:path.html" => "templates#file", :constraints => { :path => /.+/ }
 
   namespace :api do
-    resources :orders
     resources :seats
     resources :gigs do
-      resources :orders
+      resources :orders do
+        post :pay, :on => :member
+        post :unpay, :on => :member
+      end
     end
   end
 
