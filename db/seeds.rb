@@ -1,11 +1,13 @@
+# encoding: utf-8
+
 Gig.delete_all
 
 3.times do |i|
-  Gig.create title: "#{i + 1}. Auftritt", date: Time.zone.local(2013, 7, 11 + i, 20, 30)
+  Gig.create title: "#{i + 1}. Aufführung", date: Time.zone.local(2013, 7, 11 + i, 20, 30)
 end
 
 3.times do |i|
-  Gig.create title: "#{i + 4}. Auftritt", date: Time.zone.local(2013, 7, 15 + i, 20, 30)
+  Gig.create title: "#{i + 4}. Aufführung", date: Time.zone.local(2013, 7, 15 + i, 20, 30)
 end
 
 Seat.delete_all
