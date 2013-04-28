@@ -47,7 +47,7 @@ app.controller "OrderCtrl", ["$scope", "$routeParams", "$location", "Gig", "GigO
 
   $scope.deselectSeat = (seat) ->
     return unless seat in $scope.selectedOrder.seats
-    $scope.selectedOrder.seats = (s for s in $scope.selectedOrder.seats when s != seat)
+    $scope.selectedOrder.seats.remove(seat)
 
   $scope.selectOrder = (order) ->
     $scope.selectedOrder = order
@@ -86,7 +86,7 @@ app.controller "OrderCtrl", ["$scope", "$routeParams", "$location", "Gig", "GigO
 
   $scope.remove = (order) ->
     if confirm("Wollen Sie die Bestellung von #{order.name} wirklich löschen?")
-      $scope.orders = (o for o in $scope.orders when o != order)
+      $scope.orders.remove(order)
       $scope.selectedOrder = null
       if order.id
         $http.delete("/api/gigs/#{$scope.gig.id}/orders/#{order.id}.json")

@@ -14,6 +14,7 @@
 //= require angular
 //= require angular-resource
 //= require underscore
+//= require util
 //= require app
 //= require resources
 //= require services
