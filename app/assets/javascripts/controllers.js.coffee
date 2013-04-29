@@ -6,7 +6,7 @@ app.controller "OrderCtrl", ["$scope", "$routeParams", "$location", "Gig", "GigO
   $scope.gig = Gig.get({id: $routeParams.gigId})
   $scope.orders = GigOrders.query({gigId: $routeParams.gigId}, (orders) ->
     if $location.search().order
-      $scope.selectedOrder = _.find $scope.orders, (o) -> o.id == parseInt($location.search().order)
+      $scope.selectedOrder = _.find orders, (o) -> o.id == parseInt($location.search().order)
   )
 
   $scope.seats = Seat.query()
