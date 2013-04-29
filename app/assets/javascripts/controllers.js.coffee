@@ -1,8 +1,8 @@
-app.controller "GigListCtrl", ["$scope", "Gigs", ($scope, Gigs) ->
+app.controller "GigListController", ["$scope", "Gigs", ($scope, Gigs) ->
   $scope.gigs = Gigs.query()
 ]
 
-app.controller "OrderCtrl", ["$scope", "$routeParams", "$location", "Gig", "GigOrders", "GigOrder", "Seat", "$http", ($scope, $routeParams, $location, Gig, GigOrders, GigOrder, Seat, $http) ->
+app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrders", "GigOrder", "Seat", "$http", ($scope, $routeParams, $location, Gig, GigOrders, GigOrder, Seat, $http) ->
   $scope.gig = Gig.get({id: $routeParams.gigId})
   $scope.orders = GigOrders.query({gigId: $routeParams.gigId}, (orders) ->
     if $location.search().order
@@ -85,7 +85,7 @@ app.controller "OrderCtrl", ["$scope", "$routeParams", "$location", "Gig", "GigO
         $http.delete("/api/gigs/#{$scope.gig.id}/orders/#{order.id}.json")
 ]
 
-app.controller "OrderListCtrl", ["$scope", ($scope) ->
+app.controller "OrderListController", ["$scope", ($scope) ->
   $scope.filters = [{name: "Alle", f: "{}"}, {name: "Nicht bezahlt", f: "notPaid"}]
   $scope.currentFilter = $scope.filters[0]
   $scope.selectFilter = (filter) ->
