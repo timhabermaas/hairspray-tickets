@@ -33,8 +33,8 @@
         {{selectedOrder.errors}}
       </div>
       <ul>
-        <li ng-repeat="seat in selectedOrder.seats | limit:5">
-          {{seat | seatDescription}}
+        <li ng-repeat="row in selectedOrder.seats | seatDescriptions">
+          {{row}}
         </li>
       </ul>
       <form>

@@ -1,3 +1,20 @@
+app.controller "SessionController", ["$scope", "$http", "Session", ($scope, $http, Session) ->
+  $scope.user = {name: "", password: ""}
+
+  $scope.session = Session
+
+  $scope.login = ->
+    $http.post("/api/sessions", $scope.user).success(->
+      Session.logIn($scope.user.name)
+      $scope.user.password = ""
+    ).error(->
+      Session.logOut()
+    )
+
+  $scope.logout = ->
+    Session.logOut()
+]
+
 app.controller "GigListController", ["$scope", "Gigs", ($scope, Gigs) ->
   $scope.gigs = Gigs.query()
 ]
