@@ -18,14 +18,12 @@ app.filter "seatDescriptions", ->
   consecutiveSeats = (seats) ->
     seats.sort((a, b) -> a - b)
     result = [[seats[0]]]
-    lastSeat = seats[0]
     i = 1
     while i < seats.length
-      if seats[i] > lastSeat + 1
+      if seats[i] > seats[i - 1] + 1
         result.push([seats[i]])
       else
         result[result.length - 1].push(seats[i])
-      lastSeat = seats[i]
       i += 1
 
     result
