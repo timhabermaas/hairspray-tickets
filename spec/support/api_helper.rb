@@ -4,6 +4,10 @@ module ApiHelper
   def app
     Rails.application
   end
+
+  def parsed_response
+    JSON.parse(last_response.body)
+  end
 end
 
 RSpec.configure do |c|

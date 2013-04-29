@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "/api/seats" do
+describe "seats" do
   let(:row_1) { Row.create! number: 1, y: 2 }
   let(:row_2) { Row.create! number: 2, y: 4 }
 
