@@ -1,15 +1,3 @@
-app.filter "notPaid", ->
-  (orders) ->
-    order for order in orders when order.paid == false
-
-app.filter "all", ->
-  (orders) ->
-    orders
-
-app.filter "limit", ->
-  (array, limit) ->
-    if array then array[0..limit-1] else []
-
 app.filter "germanDate", ["$filter", ($filter) ->
   date = $filter "date"
   (datetime) ->
