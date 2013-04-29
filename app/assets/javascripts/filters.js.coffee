@@ -17,9 +17,36 @@ app.filter "germanDate", ["$filter", ($filter) ->
     "am #{date(datetime, 'd.MM.yyyy')} um #{date(datetime, 'H:mm')} Uhr"
 ]
 
-app.filter "seatDescription", ->
-  (seat) ->
-    "Reihe #{seat.row.number}, Platz #{seat.number}"
+app.filter "seatDescriptions", ->
+  # returns 1-3 for [1,2,3]
+  # returns 4 for [4]
+  seatsToString = (seats) ->
+    if seats.length > 1
+      "#{seats[0]}-#{seats[seats.length - 1]}"
+    else
+      "#{seats[0]}"
+
+  # returns [[1,2,3], [5]] when given [1,2,3,5]
+  consecutiveSeats = (seats) ->
+    seats.sort((a, b) -> a - b)
+    result = [[seats[0]]]
+    lastSeat = seats[0]
+    i = 1
+    while i < seats.length
+      if seats[i] > lastSeat + 1
+        result.push([seats[i]])
+      else
+        result[result.length - 1].push(seats[i])
+      lastSeat = seats[i]
+      i += 1
+
+    result
+
+  (seats) ->
+    groupedByRow = _.groupBy(seats, (s) -> s.row.number)
+    seatNumbers = ({row: key, seats: consecutiveSeats(s.number for s in value)} for key, value of groupedByRow)
+    stringified = ({row: row.row, seats: (seatsToString(seats) for seats in row.seats)} for row in seatNumbers)
+    "Reihe #{row.row}, Platz #{row.seats.join(', ')}" for row in stringified
 
 app.filter "normalPriceSum", ->
   (order) ->
