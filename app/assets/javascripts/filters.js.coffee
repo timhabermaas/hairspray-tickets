@@ -6,15 +6,15 @@ app.filter "germanDate", ["$filter", ($filter) ->
 ]
 
 app.filter "seatDescriptions", ->
-  # returns 1-3 for [1,2,3]
-  # returns 4 for [4]
+  # returns "1-3" for [1,2,3]
+  # returns "4" for [4]
   seatsToString = (seats) ->
     if seats.length > 1
       "#{seats[0]}-#{seats[seats.length - 1]}"
     else
       "#{seats[0]}"
 
-  # returns [[1,2,3], [5]] when given [1,2,3,5]
+  # returns [[1,2,3], [5]] when given [1,3,2,5]
   consecutiveSeats = (seats) ->
     seats.sort((a, b) -> a - b)
     result = [[seats[0]]]
