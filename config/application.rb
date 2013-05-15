@@ -17,6 +17,7 @@ module HairsprayTickets
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
+    config.autoload_paths += %W(#{config.root}/app/api/api/v1/*.rb)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -60,5 +61,9 @@ module HairsprayTickets
     config.assets.version = '1.0'
 
     config.credentials = { name: "admin", password: "admin" }
+
+    config.middleware.use(Rack::Config) do |env|
+      env['api.tilt.root'] = Rails.root.join "app", "views", "api"
+    end
   end
 end

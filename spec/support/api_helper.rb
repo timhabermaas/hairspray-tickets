@@ -8,6 +8,10 @@ module ApiHelper
   def parsed_response
     JSON.parse(last_response.body)
   end
+
+  def api_base_path
+    "/api/v1"
+  end
 end
 
 RSpec.configure do |c|
