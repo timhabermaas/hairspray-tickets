@@ -15,6 +15,16 @@ class Order < ActiveRecord::Base
     reservations_count
   end
 
+  def pay!
+    self.paid_at = DateTime.now
+    save
+  end
+
+  def unpay!
+    self.paid_at = nil
+    save
+  end
+
   private
   def has_not_more_reduced_seats_than_seats
     errors.add :reduced_count, "can't exceed total number of seats" if reduced_count > seats.size
