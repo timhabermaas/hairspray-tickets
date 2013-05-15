@@ -4,7 +4,7 @@ app.controller "SessionController", ["$scope", "$http", "Session", ($scope, $htt
   $scope.session = Session
 
   $scope.login = ->
-    $http.post("/api/sessions", $scope.user).success(->
+    $http.post("/api/v1/sessions", $scope.user).success(->
       Session.logIn($scope.user.name)
       $scope.user.password = ""
     ).error(->
@@ -69,12 +69,12 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
     $location.search("order", "")
 
   $scope.pay = (order) ->
-    $http.post("/api/gigs/#{$scope.gig.id}/orders/#{order.id}/pay.json").success (response) ->
+    $http.post("/api/v1/gigs/#{$scope.gig.id}/orders/#{order.id}/pay").success (response) ->
       order.paid_at = response.paid_at
       order.paid = true
 
   $scope.unpay = (order) ->
-    $http.post("/api/gigs/#{$scope.gig.id}/orders/#{order.id}/unpay.json").success (response) ->
+    $http.post("/api/v1/gigs/#{$scope.gig.id}/orders/#{order.id}/unpay").success (response) ->
       order.paid_at = response.paid_at
       order.paid = false
 
@@ -82,13 +82,13 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
     seatIds = _.map(order.seats, (s) -> s.id)
     params = {order: {name: order.name, seat_ids: seatIds, reduced_count: order.reduced_count, paid_at: order.paid_at}}
     if order.id
-      $http.put("/api/gigs/#{$scope.gig.id}/orders/#{order.id}.json", params).success((response) ->
+      $http.put("/api/v1/gigs/#{$scope.gig.id}/orders/#{order.id}", params).success((response) ->
         order.error = false
       ).error (response) ->
         order.error = true
         order.errors = response
     else
-      $http.post("/api/gigs/#{$scope.gig.id}/orders.json", params).success((response) ->
+      $http.post("/api/v1/gigs/#{$scope.gig.id}/orders", params).success((response) ->
         order.id = response.id
         order.error = false
       ).error (response) ->
@@ -99,7 +99,7 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
       $scope.orders.remove(order)
       $scope.selectedOrder = null
       if order.id
-        $http.delete("/api/gigs/#{$scope.gig.id}/orders/#{order.id}.json")
+        $http.delete("/api/v1/gigs/#{$scope.gig.id}/orders/#{order.id}")
 ]
 
 app.controller "OrderListController", ["$scope", ($scope) ->
