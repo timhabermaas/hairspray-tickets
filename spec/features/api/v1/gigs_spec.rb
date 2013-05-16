@@ -14,9 +14,7 @@ describe API::V1::Gigs do
     subject! do
       gig_1 = Gig.create! title: "Gig #1", date: Time.now
       gig_2 = Gig.create! title: "Auftritt #3", date: Time.now
-      order = Order.create! gig: gig_2, name: "Peter"
-      Reservation.create! seat: @seats[0], order: order
-      Reservation.create! seat: @seats[1], order: order
+      order = Order.create! gig: gig_2, name: "Peter", seats: @seats[0..1]
 
       get api_base_path + "/gigs"
     end

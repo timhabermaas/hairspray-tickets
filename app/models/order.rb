@@ -1,5 +1,5 @@
 class Order < ActiveRecord::Base
-  validates :name, :presence => true
+  validates :name, :gig_id, :presence => true
   validates :reduced_count, :numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
   validate :has_not_more_reduced_seats_than_seats
   validate :has_at_least_one_seat

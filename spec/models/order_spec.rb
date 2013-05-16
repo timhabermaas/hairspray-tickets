@@ -1,8 +1,8 @@
 require "spec_helper"
 
 describe Order do
-  let(:seat) { Seat.create number: 2, x: 2, row: Row.new(number: 4, y: 3) }
-  let(:valid_attributes) { {name: "Hans Mustermann", paid_at: Time.new(2013, 2, 4), reduced_count: 0, gig_id: 2,  seats: [seat]} }
+  let(:seat) { FactoryGirl.build :seat, number: 2, x: 2 }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:order) }
   let(:valid_order) { Order.new valid_attributes }
 
   describe "validations" do

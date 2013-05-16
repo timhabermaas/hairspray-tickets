@@ -138,10 +138,10 @@ describe API::V1::Orders do
 
   context "paying an order" do
 
-    let(:order) { Order.create! gig: gig, name: "Peter" }
+    let(:order) { FactoryGirl.create :not_paid_order, name: "Peter" }
 
     subject! do
-      post api_base_path + "/gigs/#{gig.id}/orders/#{order.id}/pay"
+      post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/pay"
     end
 
     its(:status) { should eq(200) }
@@ -159,10 +159,10 @@ describe API::V1::Orders do
 
   context "unpaying an order" do
 
-    let(:order) { Order.create! gig: gig, name: "Peter", paid_at: DateTime.now }
+    let(:order) { FactoryGirl.create :paid_order, name: "Peter" }
 
     subject! do
-      post api_base_path + "/gigs/#{gig.id}/orders/#{order.id}/unpay"
+      post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/unpay"
     end
 
     its(:status) { should eq(200) }
