@@ -33,4 +33,11 @@ FactoryGirl.define do
     factory :paid_order, traits: [:paid]
     factory :not_paid_order, traits: [:not_paid]
   end
+
+  factory :account do
+    login "hans"
+    email "ad@gmail.com"
+    password "secret"
+    password_confirmation "secret"
+  end
 end
