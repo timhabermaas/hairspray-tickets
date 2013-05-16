@@ -15,13 +15,13 @@ app.controller "SessionController", ["$scope", "$http", "Session", ($scope, $htt
     Session.logOut()
 ]
 
-app.controller "GigListController", ["$scope", "Gigs", ($scope, Gigs) ->
-  $scope.gigs = Gigs.query()
+app.controller "GigListController", ["$scope", "Gig", ($scope, Gig) ->
+  $scope.gigs = Gig.query()
 ]
 
-app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrders", "GigOrder", "Seat", "$http", ($scope, $routeParams, $location, Gig, GigOrders, GigOrder, Seat, $http) ->
+app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrder", "Seat", ($scope, $routeParams, $location, Gig, GigOrder, Seat) ->
   $scope.gig = Gig.get({id: $routeParams.gigId})
-  $scope.orders = GigOrders.query({gigId: $routeParams.gigId}, (orders) ->
+  $scope.orders = GigOrder.query({gigId: $routeParams.gigId}, (orders) ->
     if $location.search().order
       $scope.selectedOrder = _.find orders, (o) -> o.id == parseInt($location.search().order)
   )
@@ -64,42 +64,39 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
     $location.search("order", order.id)
 
   $scope.newOrder = ->
-    $scope.selectedOrder = {name: "Besucher ##{$scope.orders.length}", reduced_count: 0, seats: []}
+    $scope.selectedOrder = new GigOrder({name: "Besucher ##{$scope.orders.length}", reduced_count: 0, seats: []})
     $scope.orders.push $scope.selectedOrder
     $location.search("order", "")
 
   $scope.pay = (order) ->
-    $http.post("/api/v1/gigs/#{$scope.gig.id}/orders/#{order.id}/pay").success (response) ->
-      order.paid_at = response.paid_at
-      order.paid = true
+    order.$pay({gigId: $scope.gig.id})
 
   $scope.unpay = (order) ->
-    $http.post("/api/v1/gigs/#{$scope.gig.id}/orders/#{order.id}/unpay").success (response) ->
-      order.paid_at = response.paid_at
-      order.paid = false
+    order.$unpay({gigId: $scope.gig.id})
 
   $scope.save = (order) ->
     seatIds = _.map(order.seats, (s) -> s.id)
-    params = {order: {name: order.name, seat_ids: seatIds, reduced_count: order.reduced_count, paid_at: order.paid_at}}
+    order.seat_ids = seatIds;
     if order.id
-      $http.put("/api/v1/gigs/#{$scope.gig.id}/orders/#{order.id}", params).success((response) ->
+      order.$update({gigId: $scope.gig.id}, (r) ->
         order.error = false
-      ).error (response) ->
+      , (r) ->
         order.error = true
-        order.errors = response
+        order.errors = r.data.error
+      )
     else
-      $http.post("/api/v1/gigs/#{$scope.gig.id}/orders", params).success((response) ->
-        order.id = response.id
+      order.$save({gigId: $scope.gig.id}, (r) ->
         order.error = false
-      ).error (response) ->
+      , (r) ->
         order.error = true
+        order.errors = r.data.error
+      )
 
   $scope.remove = (order) ->
-    if confirm("Wollen Sie die Bestellung von #{order.name} wirklich löschen?")
-      $scope.orders.remove(order)
-      $scope.selectedOrder = null
-      if order.id
-        $http.delete("/api/v1/gigs/#{$scope.gig.id}/orders/#{order.id}")
+    $scope.orders.remove(order)
+    $scope.selectedOrder = null
+    if order.id and confirm("Wollen Sie die Bestellung von #{order.name} wirklich löschen?")
+      GigOrder.delete({gigId: $scope.gig.id, id: order.id})
 ]
 
 app.controller "OrderListController", ["$scope", ($scope) ->

@@ -4,22 +4,10 @@ app.factory "Gig", ["$resource", ($resource) ->
   $resource "api/v1/gigs/:id", commonParameters...
 ]
 
-app.factory "Gigs", ["$resource", ($resource) ->
-  $resource "api/v1/gigs", {}, {query: {method: "GET", isArray: true}}
-]
-
-app.factory "Order", ["$resource", ($resource) ->
-  $resource "api/orders/:id.json", {id: "@id"}, {get: {method: "GET"}, remove: {method: "DELETE"}, "delete": {method: "DELETE"}, update: {method: "PUT"}}
-]
-
 app.factory "GigOrder", ["$resource", ($resource) ->
-  $resource "api/v1/gigs/:gigId/orders/:id", {id: "@id"}, {get: {method: "GET"}, remove: {method: "DELETE"}, "delete": {method: "DELETE"}, update: {method: "PUT"}}
-]
-
-app.factory "GigOrders", ["$resource", ($resource) ->
-  $resource "api/v1/gigs/:gigId/orders", {}, {query: {method: "GET", isArray: true}, save: {method: "POST", isArray: false}}
+  $resource "api/v1/gigs/:gigId/orders/:id/:action", {id: "@id"}, {update: {method: "PUT"}, pay: {method: "POST", params: {action: "pay"}}, unpay: {method: "POST", params: {action: "unpay"}}}
 ]
 
 app.factory "Seat", ["$resource", ($resource) ->
-  $resource "api/v1/seats"
+  $resource "api/v1/seats", commonParameters...
 ]
