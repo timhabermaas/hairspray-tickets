@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20130516230535) do
 
   create_table "sessions", :force => true do |t|
     t.string   "key",        :null => false
+    t.integer  "account_id", :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

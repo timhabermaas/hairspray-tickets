@@ -38,6 +38,5 @@ FactoryGirl.define do
     login "hans"
     email "ad@gmail.com"
     password "secret"
-    password_confirmation "secret"
   end
 end
