@@ -38,5 +38,6 @@ FactoryGirl.define do
     login "hans"
     email "ad@gmail.com"
     password "secret"
+    role "user"
   end
 end

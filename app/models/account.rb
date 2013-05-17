@@ -1,5 +1,6 @@
 class Account < ActiveRecord::Base
-  validate :login, :email, :presence => true
+  validate :login, :email, :role, :presence => true
+  validate :role, :inclusion => { :in => %w(user admin) }
 
   has_secure_password
 
