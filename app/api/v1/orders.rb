@@ -1,4 +1,11 @@
 class API::V1::Orders < Grape::API
+  # restrict_access to: admin
+  # restrict_access to: user
+  before do
+    session = Session.find_by_key(headers["X-Api-Key"])
+    error!({error: "not authorized"}, 401) unless session
+  end
+
   resource :gigs do
 
     namespace "/:gig_id" do
