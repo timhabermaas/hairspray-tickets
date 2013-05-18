@@ -15,7 +15,7 @@ describe API::V1::Orders do
       get api_base_path + "/gigs/#{gig.id}/orders", {}, "HTTP_X-API-KEY" => api_key
     end
 
-    context "logged in" do
+    context "when logged in" do
 
       let(:api_key) { create_valid_api_key_for(:user) }
 
@@ -36,7 +36,7 @@ describe API::V1::Orders do
 
     end
 
-    context "not logged in" do
+    context "when not logged in" do
 
       let(:api_key) { "not valid" }
 
@@ -65,7 +65,7 @@ describe API::V1::Orders do
       post api_base_path + "/gigs/#{gig.id}/orders", order_hash, "HTTP_X-API-KEY" => api_key
     end
 
-    context "logged in" do
+    context "when logged in" do
 
       let(:api_key) { create_valid_api_key_for(:user) }
 
@@ -99,7 +99,7 @@ describe API::V1::Orders do
 
     end
 
-    context "not logged in" do
+    context "when not logged in" do
 
       let(:api_key) { "invalid" }
 
@@ -127,7 +127,7 @@ describe API::V1::Orders do
       put api_base_path + "/gigs/#{gig.id}/orders/#{order.id}", order_hash, "HTTP_X-API-KEY" => api_key
     end
 
-    context "logged in" do
+    context "when logged in" do
 
       let(:api_key) { create_valid_api_key_for(:user) }
 
@@ -165,7 +165,7 @@ describe API::V1::Orders do
 
     end
 
-    context "not logged in" do
+    context "when not logged in" do
 
       let(:api_key) { "not valid" }
 
@@ -185,7 +185,7 @@ describe API::V1::Orders do
       delete api_base_path + "/gigs/#{gig.id}/orders/#{order.id}", {}, "HTTP_X-API-KEY" => api_key
     }
 
-    context "logged in" do
+    context "when logged in" do
 
       let(:api_key) { create_valid_api_key_for(:user) }
 
@@ -202,7 +202,7 @@ describe API::V1::Orders do
 
     end
 
-    context "not logged in" do
+    context "when not logged in" do
 
       let(:api_key) { "not valid" }
 
@@ -224,7 +224,7 @@ describe API::V1::Orders do
       post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/pay", {}, "HTTP_X-API-KEY" => api_key
     end
 
-    context "logged in" do
+    context "when logged in" do
 
       let(:api_key) { create_valid_api_key_for(:user) }
 
@@ -241,7 +241,7 @@ describe API::V1::Orders do
 
     end
 
-    context "not logged in" do
+    context "when not logged in" do
 
       let(:api_key) { "not valid" }
 
@@ -263,7 +263,7 @@ describe API::V1::Orders do
       post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/unpay", {}, "HTTP_X-API-KEY" => api_key
     end
 
-    context "logged in" do
+    context "when logged in" do
 
       let(:api_key) { create_valid_api_key_for(:user) }
 
@@ -280,7 +280,7 @@ describe API::V1::Orders do
 
     end
 
-    context "not logged in" do
+    context "when not logged in" do
 
       let(:api_key) { "not valid" }
 
