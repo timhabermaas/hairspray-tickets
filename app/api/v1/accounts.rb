@@ -1,6 +1,10 @@
 require 'active_record/validations'
 
 class API::V1::Accounts < Grape::API
+  extend Authorization
+
+  restrict_access_to :admin
+
   resource :accounts do
 
     rescue_from ActiveRecord::RecordInvalid do |e|
