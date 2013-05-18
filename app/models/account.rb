@@ -6,7 +6,9 @@ class Account < ActiveRecord::Base
 
   has_many :sessions
 
-  def role?(role)
-    self.role.to_s == role.to_s
+  def role?(*roles)
+    roles.any? do |r|
+      self.role.to_s == r.to_s
+    end
   end
 end
