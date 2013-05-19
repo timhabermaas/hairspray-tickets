@@ -29,7 +29,7 @@ class API::V1::Orders < Grape::API
         post "/", rabl: "order" do
           @order = gig.orders.build declared(params)
           if !@order.save
-            error!({ "error" => @order.errors }, 422)
+            error!({"error" => @order.errors}, 422)
           end
         end
 
@@ -48,7 +48,7 @@ class API::V1::Orders < Grape::API
         put "/:id", rabl: "order" do
           @order = gig.orders.find params["id"]
           if !@order.update_attributes(declared(params))
-            error!({error => @order.errors}, 422)
+            error!({"error" => @order.errors}, 422)
           end
         end
 
