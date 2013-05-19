@@ -72,3 +72,7 @@ end
 
 unusable_seats = Seat.joins(:row).where("rows.number = 16 AND seats.number IN (20, 21) OR rows.number = 15 AND seats.number IN (17, 18) OR rows.number = 14 AND seats.number = 18")
 unusable_seats.update_all(:usable => false)
+
+
+Account.delete_all
+Account.create! login: "admin", password: "admin", role: "admin", email: "unwichtig@muh.com"
