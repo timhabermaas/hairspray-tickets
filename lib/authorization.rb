@@ -3,8 +3,11 @@ module Authorization
     roles_as_parameter_list = roles.map{ |r| "\"#{r}\"" }.join(', ')
     instance_eval <<-EOS
       before do
-        session = Session.find_by_key(headers["X-Api-Key"])
-        if session and session.account and session.account.role?(#{roles_as_parameter_list})
+        account = nil
+        if env["rack.session"][:account_id]
+          account = Account.find(env["rack.session"][:account_id])
+        end
+        if account and account.role?(#{roles_as_parameter_list})
           #return
         else
           error!({error: "not authorized"}, 401)
