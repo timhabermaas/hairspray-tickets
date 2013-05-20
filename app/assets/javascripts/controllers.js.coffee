@@ -2,16 +2,19 @@ app.controller "AccountsController", ["$scope", "Account", ($scope, Account) ->
   $scope.accounts = Account.query()
 ]
 
-app.controller "SessionController", ["$scope", "$http", "Session", ($scope, $http, Session) ->
+app.controller "SessionController", ["$scope", "$http", "$location", "Session", ($scope, $http, $location, Session) ->
   $scope.user = {name: "", password: ""}
 
   $scope.session = Session
 
   $scope.login = ->
-    Session.logIn($scope.user.name, $scope.user.password)
+    Session.logIn($scope.user.name, $scope.user.password).then ->
+      $location.path("/")
 
   $scope.logout = ->
     Session.logOut()
+
+  Session.getCurrent()
 ]
 
 app.controller "GigListController", ["$scope", "Gig", ($scope, Gig) ->
