@@ -16,13 +16,8 @@ describe API::V1::Sessions do
 
       its(:status) { should eq(201) }
 
-      it "returns a session key" do
-        expect(parsed_response["session_key"]).to be_present
-        parsed_response["session_key"].length.should be > 20
-      end
-
-      it "creates a new session key for the account" do
-        expect(account.reload.sessions.last.key).to eq(parsed_response["session_key"])
+      it "returns the logged in user" do
+        expect(parsed_response["login"]).to eq("hans")
       end
 
     end
@@ -36,6 +31,38 @@ describe API::V1::Sessions do
       it "returns 'login or password doesn't match'" do
         expect(parsed_response["error"]).to eq("login or password doesn't match")
       end
+
+    end
+  end
+
+  describe "getting the session" do
+
+    context "when logged in" do
+
+      before do
+        login_with_name_and_role("peter", :admin)
+      end
+
+      subject! do
+        get api_base_path + "/sessions/current"
+      end
+
+      its(:status) { should eq(200) }
+
+      it "returns the logged in user and its role" do
+        expect(parsed_response["login"]).to eq("peter")
+        expect(parsed_response["role"]).to eq("admin")
+      end
+
+    end
+
+    context "when not logged in" do
+
+      subject! do
+        get api_base_path + "/sessions/current"
+      end
+
+      its(:status) { should eq(404) }
 
     end
   end
