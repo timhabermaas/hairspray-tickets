@@ -66,4 +66,38 @@ describe API::V1::Sessions do
 
     end
   end
+
+  describe "deleting a session" do
+
+    context "when logged in" do
+
+      before do
+        login_with_name_and_role("peter", :user)
+      end
+
+      subject! do
+        delete api_base_path + "/sessions/current"
+      end
+
+      its(:status) { should eq(200) }
+
+      it "ensures user is no longer logged in" do
+        # TODO how?
+      end
+    end
+
+    context "when not logged in" do
+
+      subject! do
+        delete api_base_path + "/sessions/current"
+      end
+
+      its(:status) { should eq(200) }
+
+      it "ensures user is not logged in" do
+        # TODO how?
+      end
+
+    end
+  end
 end

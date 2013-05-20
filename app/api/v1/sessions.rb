@@ -26,5 +26,9 @@ class API::V1::Sessions < Grape::API
       end
     end
 
+    desc "Deleting current session."
+    delete "/current" do
+      env["rack.session"][:account_id] = nil
+    end
   end
 end
