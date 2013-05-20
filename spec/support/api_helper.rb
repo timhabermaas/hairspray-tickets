@@ -13,11 +13,6 @@ module ApiHelper
     "/api/v1"
   end
 
-  def create_valid_api_key_for(role)
-    account = FactoryGirl.create :account, role: role
-    Session.create_with_unique_key!(account).key
-  end
-
   def login_with_name_and_role(name, role)
     account = FactoryGirl.create :account, login: name, password: "secret", role: role
     post api_base_path + "/sessions", {login: name, password: "secret"}

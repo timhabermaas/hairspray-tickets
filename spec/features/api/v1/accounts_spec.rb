@@ -4,7 +4,9 @@ describe API::V1::Accounts do
 
   context "when logged in as admin" do
 
-    let(:api_key) { create_valid_api_key_for(:admin) }
+    before do
+      login_with_name_and_role("hans", :admin)
+    end
 
     describe "fetching accounts" do
 
@@ -12,16 +14,17 @@ describe API::V1::Accounts do
       let!(:account_2) { FactoryGirl.create :account, login: "ufo" }
 
       subject! do
-        get api_base_path + "/accounts", {}, "HTTP_X-API-KEY" => api_key
+        get api_base_path + "/accounts"
       end
 
       its(:status) { should eq(200) }
 
       it "returns all accounts" do
         expect(parsed_response).to have(3).items # includes the user itself
-        expect(parsed_response[0]["login"]).to eq("abcd")
-        expect(parsed_response[1]["login"]).to eq("ufo")
-        expect(parsed_response[0]["email"]).to eq("muh@cow.com")
+        expect(parsed_response[0]["login"]).to eq("hans")
+        expect(parsed_response[1]["login"]).to eq("abcd")
+        expect(parsed_response[2]["login"]).to eq("ufo")
+        expect(parsed_response[1]["email"]).to eq("muh@cow.com")
       end
 
       it "doesn't return a password" do
@@ -35,7 +38,7 @@ describe API::V1::Accounts do
     describe "creating an account" do
 
       subject! do
-        post api_base_path + "/accounts", parameters, "HTTP_X-API-KEY" => api_key
+        post api_base_path + "/accounts", parameters
       end
 
       context "valid parameters" do
@@ -89,12 +92,14 @@ describe API::V1::Accounts do
 
   context "when logged in as user" do
 
-    let(:api_key) { create_valid_api_key_for(:user) }
+    before(:each) do
+      login_with_name_and_role("hans", :user)
+    end
 
     context "fetching accounts" do
 
       subject! do
-        get api_base_path + "/accounts", {}, "HTTP_X-API-KEY" => api_key
+        get api_base_path + "/accounts"
       end
 
       its(:status) { should eq(401) }
@@ -108,7 +113,7 @@ describe API::V1::Accounts do
     context "creating an account" do
 
       subject! do
-        get api_base_path + "/accounts", {}, "HTTP_X-API-KEY" => api_key
+        get api_base_path + "/accounts"
       end
 
       its(:status) { should eq(401) }
@@ -122,12 +127,10 @@ describe API::V1::Accounts do
 
   context "when not logged in" do
 
-    let(:api_key) { "invalid key" }
-
     context "fetching accounts" do
 
       subject! do
-        get api_base_path + "/accounts", {}, "HTTP_X-API-KEY" => api_key
+        get api_base_path + "/accounts"
       end
 
       its(:status) { should eq(401) }
@@ -141,7 +144,7 @@ describe API::V1::Accounts do
     context "creating an account" do
 
       subject! do
-        get api_base_path + "/accounts", {}, "HTTP_X-API-KEY" => api_key
+        get api_base_path + "/accounts"
       end
 
       its(:status) { should eq(401) }
