@@ -9,13 +9,17 @@ describe API::V1::Orders do
   let!(:order) { Order.create! gig: gig, name: "Dieter", seats: [seat_1], paid_at: Time.now, reduced_count: 1 }
   let!(:order_2) { Order.create! gig: gig_2, name: "Peter", seats: [seat_1] }
 
-  context "fetching orders" do
+  context "when logged in" do
 
-    subject! do
-      get api_base_path + "/gigs/#{gig.id}/orders", {}, "HTTP_X-API-KEY" => api_key
+    before(:all) do
+      login_with_name_and_role("hans", :user)
     end
 
-    context "when logged in" do
+    context "fetching orders" do
+
+      subject! do
+        get api_base_path + "/gigs/#{gig.id}/orders"
+      end
 
       let(:api_key) { create_valid_api_key_for(:user) }
 
@@ -36,38 +40,19 @@ describe API::V1::Orders do
 
     end
 
-    context "when not logged in" do
+    context "creating an order" do
 
-      let(:api_key) { "not valid" }
-
-      # TODO write matcher for not authorized response
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized'" do
-        expect(parsed_response["error"]).to eq("not authorized")
+      let(:order_hash) do
+        {
+          name: "Peter",
+          reduced_count: 0,
+          seat_ids: [seat_1.id]
+        }
       end
 
-    end
-
-  end
-
-  context "creating an order" do
-
-    let(:order_hash) do
-      {
-        name: "Peter",
-        reduced_count: 0,
-        seat_ids: [seat_1.id]
-      }
-    end
-
-    subject! do
-      post api_base_path + "/gigs/#{gig.id}/orders", order_hash, "HTTP_X-API-KEY" => api_key
-    end
-
-    context "when logged in" do
-
-      let(:api_key) { create_valid_api_key_for(:user) }
+      subject! do
+        post api_base_path + "/gigs/#{gig.id}/orders", order_hash
+      end
 
       context "valid parameters" do
 
@@ -96,40 +81,21 @@ describe API::V1::Orders do
         end
 
       end
-
     end
 
-    context "when not logged in" do
+    context "updating an order" do
 
-      let(:api_key) { "invalid" }
-
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized'" do
-        expect(parsed_response["error"]).to eq("not authorized")
+      let(:order_hash) do
+        {
+          name: "Peter",
+          reduced_count: 0,
+          seat_ids: [seat_1.id]
+        }
       end
 
-    end
-
-  end
-
-  context "updating an order" do
-
-    let(:order_hash) do
-      {
-        name: "Peter",
-        reduced_count: 0,
-        seat_ids: [seat_1.id]
-      }
-    end
-
-    subject! do
-      put api_base_path + "/gigs/#{gig.id}/orders/#{order.id}", order_hash, "HTTP_X-API-KEY" => api_key
-    end
-
-    context "when logged in" do
-
-      let(:api_key) { create_valid_api_key_for(:user) }
+      subject! do
+        put api_base_path + "/gigs/#{gig.id}/orders/#{order.id}", order_hash
+      end
 
       context "valid parameters" do
 
@@ -162,32 +128,13 @@ describe API::V1::Orders do
         end
 
       end
-
     end
 
-    context "when not logged in" do
+    context "deleting an order" do
 
-      let(:api_key) { "not valid" }
-
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
+      subject! do
+        delete api_base_path + "/gigs/#{gig.id}/orders/#{order.id}"
       end
-
-    end
-
-  end
-
-  context "deleting an order" do
-
-    subject! {
-      delete api_base_path + "/gigs/#{gig.id}/orders/#{order.id}", {}, "HTTP_X-API-KEY" => api_key
-    }
-
-    context "when logged in" do
-
-      let(:api_key) { create_valid_api_key_for(:user) }
 
       its(:status) { should eq(200) }
 
@@ -202,31 +149,13 @@ describe API::V1::Orders do
 
     end
 
-    context "when not logged in" do
+    context "paying an order" do
 
-      let(:api_key) { "not valid" }
+      let(:order) { FactoryGirl.create :not_paid_order, name: "Peter" }
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
+      subject! do
+        post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/pay"
       end
-
-    end
-
-  end
-
-  context "paying an order" do
-
-    let(:order) { FactoryGirl.create :not_paid_order, name: "Peter" }
-
-    subject! do
-      post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/pay", {}, "HTTP_X-API-KEY" => api_key
-    end
-
-    context "when logged in" do
-
-      let(:api_key) { create_valid_api_key_for(:user) }
 
       its(:status) { should eq(200) }
 
@@ -241,31 +170,13 @@ describe API::V1::Orders do
 
     end
 
-    context "when not logged in" do
+    context "unpaying an order" do
 
-      let(:api_key) { "not valid" }
+      let(:order) { FactoryGirl.create :paid_order, name: "Peter" }
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
+      subject! do
+        post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/unpay"
       end
-
-    end
-
-  end
-
-  context "unpaying an order" do
-
-    let(:order) { FactoryGirl.create :paid_order, name: "Peter" }
-
-    subject! do
-      post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/unpay", {}, "HTTP_X-API-KEY" => api_key
-    end
-
-    context "when logged in" do
-
-      let(:api_key) { create_valid_api_key_for(:user) }
 
       its(:status) { should eq(200) }
 
@@ -279,10 +190,58 @@ describe API::V1::Orders do
       end
 
     end
+  end
 
-    context "when not logged in" do
+  context "when not logged in" do
 
-      let(:api_key) { "not valid" }
+    context "fetching orders" do
+
+      subject! do
+        get api_base_path + "/gigs/#{gig.id}/orders"
+      end
+
+      # TODO write matcher for not authorized response
+      its(:status) { should eq(401) }
+
+      it "returns 'not authorized'" do
+        expect(parsed_response["error"]).to eq("not authorized")
+      end
+
+    end
+
+    context "creating an order" do
+
+      subject! do
+        post api_base_path + "/gigs/#{gig.id}/orders"
+      end
+
+      its(:status) { should eq(401) }
+
+      it "returns 'not authorized'" do
+        expect(parsed_response["error"]).to eq("not authorized")
+      end
+
+    end
+
+    context "updating an order" do
+
+      subject! do
+        put api_base_path + "/gigs/#{gig.id}/orders/#{order.id}"
+      end
+
+      its(:status) { should eq(401) }
+
+      it "returns 'not authorized'" do
+        expect(parsed_response["error"]).to eq("not authorized")
+      end
+
+    end
+
+    context "deleting an order" do
+
+      subject! do
+        delete api_base_path + "/gigs/#{gig.id}/orders/#{order.id}"
+      end
 
       its(:status) { should eq(401) }
 
@@ -292,6 +251,31 @@ describe API::V1::Orders do
 
     end
 
-  end
+    context "paying an order" do
 
+      subject! do
+        post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/pay"
+      end
+
+      its(:status) { should eq(401) }
+
+      it "returns 'not authorized" do
+        expect(parsed_response["error"]).to eq("not authorized")
+      end
+
+    end
+
+    context "unpaying an order" do
+
+      subject! do
+        post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/unpay"
+      end
+
+      its(:status) { should eq(401) }
+
+      it "returns 'not authorized" do
+        expect(parsed_response["error"]).to eq("not authorized")
+      end
+    end
+  end
 end
