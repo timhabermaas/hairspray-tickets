@@ -1,0 +1,16 @@
+<h1>Accounts</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Login Name</th>
+      <th>Rolle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="account in accounts">
+      <td>{{account.login}}</td>
+      <td>{{account.role}}</td>
+    </tr>
+  </tbody>
+</table>

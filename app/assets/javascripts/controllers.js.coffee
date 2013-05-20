@@ -1,15 +1,14 @@
+app.controller "AccountsController", ["$scope", "Account", ($scope, Account) ->
+  $scope.accounts = Account.query()
+]
+
 app.controller "SessionController", ["$scope", "$http", "Session", ($scope, $http, Session) ->
   $scope.user = {name: "", password: ""}
 
   $scope.session = Session
 
   $scope.login = ->
-    $http.post("/api/v1/sessions", $scope.user).success(->
-      Session.logIn($scope.user.name)
-      $scope.user.password = ""
-    ).error(->
-      Session.logOut()
-    )
+    Session.logIn($scope.user.name, $scope.user.password)
 
   $scope.logout = ->
     Session.logOut()

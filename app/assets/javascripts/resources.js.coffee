@@ -11,3 +11,11 @@ app.factory "GigOrder", ["$resource", ($resource) ->
 app.factory "Seat", ["$resource", ($resource) ->
   $resource "api/v1/seats", commonParameters...
 ]
+
+app.factory "Account", ["$resource", ($resource) ->
+  $resource "api/v1/accounts", commonParameters...
+]
+
+app.factory "SessionResource", ["$resource", ($resource) ->
+  $resource "api/v1/sessions", commonParameters...
+]
