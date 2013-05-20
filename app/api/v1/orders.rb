@@ -1,7 +1,7 @@
 class API::V1::Orders < Grape::API
   extend Authorization
 
-  restrict_access_to :user
+  restrict_access_to :admin, :user
 
   resource :gigs do
 
