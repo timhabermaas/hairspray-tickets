@@ -10,4 +10,12 @@ class Gig < ActiveRecord::Base
   def free_seats
     Seat.usable_count - reserved_seats
   end
+
+  def prev_gig
+    Gig.where("date < ?", self.date).order("date desc").first
+  end
+
+  def next_gig
+    Gig.where("date > ?", self.date).order("date").first
+  end
 end

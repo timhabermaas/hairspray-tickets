@@ -31,8 +31,12 @@ describe API::V1::Gigs do
     end
   end
 
-  context "fetching on gig" do
-    let(:gig) { Gig.create! title: "Gig #1", date: DateTime.new(2013, 2, 1) }
+  context "fetching of gig" do
+
+    let!(:prev_gig) { Gig.create! title: "Gig #1", date: DateTime.new(2013, 1, 10) }
+    let!(:gig) { Gig.create! title: "Gig #2", date: DateTime.new(2013, 2, 1) }
+    let!(:next_gig) { Gig.create! title: "Gig #3", date: DateTime.new(2013, 2, 5) }
+
     subject! do
       get api_base_path + "/gigs/#{gig.id}"
     end
@@ -40,8 +44,18 @@ describe API::V1::Gigs do
     its(:status) { should eq(200) }
 
     it "should have title and date set" do
-      expect(parsed_response["title"]).to eq("Gig #1")
+      expect(parsed_response["title"]).to eq("Gig #2")
       expect(parsed_response["date"]).to include("2013-02-01")
+    end
+
+    it "should return the next gig" do
+      expect(parsed_response["next_gig"]["id"]).to eq(next_gig.id)
+      expect(parsed_response["next_gig"]["title"]).to eq(next_gig.title)
+    end
+
+    it "should return the previous gig" do
+      expect(parsed_response["prev_gig"]["id"]).to eq(prev_gig.id)
+      expect(parsed_response["prev_gig"]["title"]).to eq(prev_gig.title)
     end
   end
 end
