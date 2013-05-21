@@ -13,6 +13,7 @@ app.controller "SessionController", ["$scope", "$http", "$location", "Session", 
 
   $scope.logout = ->
     Session.logOut()
+    $location.path("/")
 
   Session.getCurrent()
 ]
@@ -21,7 +22,9 @@ app.controller "GigListController", ["$scope", "Gig", ($scope, Gig) ->
   $scope.gigs = Gig.query()
 ]
 
-app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrder", "SeatRepository", ($scope, $routeParams, $location, Gig, GigOrder, SeatRepository) ->
+app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrder", "SeatRepository", "Session", ($scope, $routeParams, $location, Gig, GigOrder, SeatRepository, Session) ->
+  $scope.session = Session
+
   $scope.gig = Gig.get({id: $routeParams.gigId})
   $scope.orders = GigOrder.query({gigId: $routeParams.gigId}, (orders) ->
     if $location.search().order
