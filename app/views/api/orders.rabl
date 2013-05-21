@@ -1,6 +1,11 @@
 collection @orders
 
-attributes :id, :name, :reduced_count
+if authorized?(:user, :admin)
+  attributes :id, :name, :reduced_count
+else
+  attributes :id
+end
+
 node(:paid) { |o| o.paid? }
 
 child :seats => :seats do

@@ -204,11 +204,16 @@ describe API::V1::Orders do
         get api_base_path + "/gigs/#{gig.id}/orders"
       end
 
-      # TODO write matcher for not authorized response
-      its(:status) { should eq(401) }
+      its(:status) { should eq(200) }
 
-      it "returns 'not authorized'" do
-        expect(parsed_response["error"]).to eq("not authorized")
+      it "does not contain any names nor reduced_counts" do
+        expect(parsed_response[0]["name"]).to be_nil
+        expect(parsed_response[0]["reduced_count"]).to be_nil
+      end
+
+      it "returns the reserved seats" do
+        expect(parsed_response[0]["seats"][0]["number"]).to eq(3)
+        expect(parsed_response[0]["seats"][0]["row"]["number"]).to eq(2)
       end
 
     end
@@ -219,6 +224,7 @@ describe API::V1::Orders do
         post api_base_path + "/gigs/#{gig.id}/orders"
       end
 
+      # TODO write matcher for not authorized response
       its(:status) { should eq(401) }
 
       it "returns 'not authorized'" do
