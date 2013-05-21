@@ -5,14 +5,14 @@
 <ul class="pager">
   <li class="previous" ng-class="{disabled: gig.prev_gig == null}">
     <a ng-show="gig.prev_gig" ng-href="#/auffuehrungen/{{gig.prev_gig.id}}/orders">
-      &larr; Vorheriger Auftritt
+      &larr; Vorherige Aufführung
     </a>
-    <span ng-hide="gig.prev_gig">&larr; Vorheriger Auftritt</span>
+    <span ng-hide="gig.prev_gig">&larr; Vorherige Aufführung</span>
   </li>
   <li class="next" ng-class="{disabled: gig.next_gig == null}">
     <a ng-show="gig.next_gig" ng-href="#/auffuehrungen/{{gig.next_gig.id}}/orders">
-      Nächster Auftritt &rarr;
+      Nächste Aufführung &rarr;
     </a>
-    <span ng-hide="gig.next_gig">Nächster Auftritt &rarr;</span>
+    <span ng-hide="gig.next_gig">Nächste Aufführung &rarr;</span>
   </li>
 </ul>
