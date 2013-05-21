@@ -4,8 +4,12 @@ describe API::V1::Accounts do
 
   context "when logged in as admin" do
 
-    before do
+    before(:all) do
       login_with_name_and_role("hans", :admin)
+    end
+
+    after(:all) do
+      Account.delete_all
     end
 
     describe "fetching accounts" do
@@ -92,8 +96,12 @@ describe API::V1::Accounts do
 
   context "when logged in as user" do
 
-    before(:each) do
+    before(:all) do
       login_with_name_and_role("hans", :user)
+    end
+
+    after(:all) do
+      Account.delete_all
     end
 
     context "fetching accounts" do

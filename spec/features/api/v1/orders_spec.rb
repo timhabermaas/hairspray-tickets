@@ -15,6 +15,10 @@ describe API::V1::Orders do
       login_with_name_and_role("hans", :user)
     end
 
+    after(:all) do
+      Account.delete_all
+    end
+
     context "fetching orders" do
 
       subject! do
