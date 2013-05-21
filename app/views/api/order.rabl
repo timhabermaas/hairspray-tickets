@@ -8,7 +8,7 @@ child :gig do
 end
 
 child :seats do
-  attributes :number, :x
+  attributes :id, :number, :x
 
   child :row do
     attributes :number, :y # TODO add partial?
