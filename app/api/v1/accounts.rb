@@ -1,11 +1,11 @@
 require 'active_record/validations'
 
-class API::V1::Accounts < Grape::API
-  extend Authorization
-
-  restrict_access_to :admin
+class API::V1::Accounts < API::Base
+  helpers Authorization::Helpers
 
   resource :accounts do
+
+    before { authorize!(:admin) }
 
     rescue_from ActiveRecord::RecordInvalid do |e|
       rack_response({error: e.to_s}.to_json, 400)

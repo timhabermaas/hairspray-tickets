@@ -1,4 +1,4 @@
-class API::V1::Base < Grape::API
+class API::V1::Root < API::Base
   version "v1", using: :path
   format :json
   formatter :json, Grape::Formatter::Rabl

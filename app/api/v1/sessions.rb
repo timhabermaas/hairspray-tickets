@@ -1,4 +1,4 @@
-class API::V1::Sessions < Grape::API
+class API::V1::Sessions < API::Base
   resource :sessions do
 
     desc "Create a new session."
@@ -30,5 +30,6 @@ class API::V1::Sessions < Grape::API
     delete "/current" do
       env["rack.session"][:account_id] = nil
     end
+
   end
 end

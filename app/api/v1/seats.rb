@@ -1,4 +1,4 @@
-class API::V1::Seats < Grape::API
+class API::V1::Seats < API::Base
   resource :seats do
 
     desc "Fetches all seats."

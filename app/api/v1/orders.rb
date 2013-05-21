@@ -1,9 +1,9 @@
-class API::V1::Orders < Grape::API
-  extend Authorization
-
-  restrict_access_to :admin, :user
+class API::V1::Orders < API::Base
+  helpers Authorization::Helpers
 
   resource :gigs do
+
+    before { authorize! :user, :admin }
 
     namespace "/:gig_id" do
 
