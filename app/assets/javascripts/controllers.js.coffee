@@ -21,14 +21,14 @@ app.controller "GigListController", ["$scope", "Gig", ($scope, Gig) ->
   $scope.gigs = Gig.query()
 ]
 
-app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrder", "Seat", ($scope, $routeParams, $location, Gig, GigOrder, Seat) ->
+app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrder", "SeatRepository", ($scope, $routeParams, $location, Gig, GigOrder, SeatRepository) ->
   $scope.gig = Gig.get({id: $routeParams.gigId})
   $scope.orders = GigOrder.query({gigId: $routeParams.gigId}, (orders) ->
     if $location.search().order
       $scope.selectedOrder = _.find orders, (o) -> o.id == parseInt($location.search().order)
   )
 
-  $scope.seats = Seat.query()
+  $scope.seats = SeatRepository.query()
   $scope.$watch("seats", ->
     $scope.rows = _.groupBy $scope.seats, (s) ->
       s.row.y

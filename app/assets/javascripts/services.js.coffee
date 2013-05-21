@@ -1,3 +1,13 @@
+app.factory "SeatRepository", ["Seat", (Seat) ->
+  seatRepository = {seats: null}
+
+  seatRepository.query = ->
+    seatRepository.seats = Seat.query() unless seatRepository.seats
+    seatRepository.seats
+
+  seatRepository
+]
+
 app.factory "Session", ["SessionResource", "$http", "$q", (SessionResource, $http, $q) ->
   session = {loggedIn: false, name: ""}
 
