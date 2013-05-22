@@ -16,11 +16,13 @@
       <input type="search" ng-model="search.name" placeholder="Suche">
     </div>
     <ul class="orders nav nav-tabs nav-stacked">
-      <li ng-repeat="order in orders | filter:search | orderBy:'id':true" ng-class="{active: selectedOrder === order}">
+      <li ng-repeat="order in orders | filter:search | orderBy:'updated_at':true" ng-class="{active: selectedOrder === order}">
         <a href="" ng-click="selectOrder(order)">
           {{order.name}}
           <span class="badge badge-warning" ng-class="{'badge-success': order.paid}">
             {{order.seats.length}}
+          </span>
+          <span class="badge badge-info" title="Erstellt am {{order.created_at | date}}" ng-bind="order.created_at | date">
           </span>
           <span class="badge badge-error" ng-show="order.id == undefined">Nicht gespeichert</span>
         </a>
@@ -35,6 +37,7 @@
         {{selectedOrder.errors}}
       </div>
       <ul>
+        <h3>Reservierte Sitze <small ng-show="selectedOrder.paid">bezahlt am {{selectedOrder.paid_at | date}}</small></h3>
         <li ng-repeat="row in selectedOrder.seats | seatDescriptions">
           {{row}}
         </li>

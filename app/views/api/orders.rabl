@@ -1,7 +1,7 @@
 collection @orders
 
 if authorized?(:user, :admin)
-  attributes :id, :name, :reduced_count
+  attributes :id, :name, :reduced_count, :paid_at, :created_at, :updated_at
 else
   attributes :id
 end

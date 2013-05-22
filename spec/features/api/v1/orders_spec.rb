@@ -6,7 +6,7 @@ describe API::V1::Orders do
   let!(:row) { Row.create! number: 2, y: 3 }
   let!(:seat_1) { Seat.create! number: 3, x: 4, row: row }
   let!(:seat_2) { Seat.create! number: 4, x: 5, row: row }
-  let!(:order) { Order.create! gig: gig, name: "Dieter", seats: [seat_1], paid_at: Time.now, reduced_count: 1 }
+  let!(:order) { Order.create! gig: gig, name: "Dieter", seats: [seat_1], paid_at: DateTime.new(2013, 4, 5), reduced_count: 1 }
   let!(:order_2) { Order.create! gig: gig_2, name: "Peter", seats: [seat_1] }
 
   context "when logged in" do
@@ -33,6 +33,7 @@ describe API::V1::Orders do
         expect(parsed_response).to have(1).item
         expect(parsed_response[0]["name"]).to eq("Dieter")
         expect(parsed_response[0]["paid"]).to eq(true)
+        expect(DateTime.parse(parsed_response[0]["paid_at"])).to eq(DateTime.new(2013, 4, 5))
         expect(parsed_response[0]["reduced_count"]).to eq(1)
       end
 
