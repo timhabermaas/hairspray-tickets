@@ -9,7 +9,7 @@ describe API::V1::Orders do
   let!(:order) { Order.create! gig: gig, name: "Dieter", seats: [seat_1], paid_at: DateTime.new(2013, 4, 5), reduced_count: 1 }
   let!(:order_2) { Order.create! gig: gig_2, name: "Peter", seats: [seat_1] }
 
-  context "when logged in" do
+  context "when logged in as user" do
 
     before(:all) do
       login_with_name_and_role("hans", :user)
@@ -183,15 +183,10 @@ describe API::V1::Orders do
         post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/unpay"
       end
 
-      its(:status) { should eq(200) }
+      its(:status) { should eq(401) }
 
-      it "sets paid flag to false" do
-        expect(order.reload).to_not be_paid
-      end
-
-      it "returns an updated model" do
-        expect(parsed_response["name"]).to eq("Peter")
-        expect(parsed_response["paid"]).to eq(false)
+      it "returns 'not authorized'" do
+        expect(parsed_response["error"]).to eq("not authorized")
       end
 
     end

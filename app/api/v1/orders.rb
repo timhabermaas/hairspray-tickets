@@ -62,13 +62,18 @@ class API::V1::Orders < API::Base
               @order.pay!
               status 200
             end
+          end
+        end
 
-            desc "Unpay an order."
-            post "/unpay", rabl: "order" do
-              @order = gig.orders.find(params["id"])
-              @order.unpay!
-              status 200
-            end
+        segment do
+
+          before { authorize! :admin }
+
+          desc "Unpay an order."
+          post "/:id/unpay", rabl: "order" do
+            @order = gig.orders.find(params["id"])
+            @order.unpay!
+            status 200
           end
         end
       end
