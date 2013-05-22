@@ -6,9 +6,9 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body ng-controller="PageController">
 
-<div class="navbar" ng-submit="login()" ng-controller="SessionController">
+<div class="navbar" ng-submit="login()" ng-controller="SessionController" ng-show="showNavigation">
   <div class="navbar-inner">
     <a href="#" class="brand">Hairspray 2013</a>
     <form class="navbar-form pull-right" ng-show="!session.loggedIn">

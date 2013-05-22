@@ -1,11 +1,28 @@
+app.controller "PageController", ["$scope", "$location", "Session", ($scope, $location, Session) ->
+  $scope.session = Session
+  $scope.location = $location
+
+  setNavigationVisibility = ->
+    isOnOrdersPage = $scope.location.path().match(/\/auffuehrungen\/[0-9]+\/orders/)
+    isLoggedIn = $scope.session.loggedIn
+
+    $scope.showNavigation = isLoggedIn || !isOnOrdersPage
+
+  $scope.$watch("session", ->
+    setNavigationVisibility()
+  , true)
+
+  $scope.$watch("location.path()", ->
+    setNavigationVisibility()
+  , true)
+]
+
 app.controller "AccountsController", ["$scope", "Account", ($scope, Account) ->
   $scope.accounts = Account.query()
 ]
 
 app.controller "SessionController", ["$scope", "$http", "$location", "Session", ($scope, $http, $location, Session) ->
   $scope.user = {name: "", password: ""}
-
-  $scope.session = Session
 
   $scope.login = ->
     Session.logIn($scope.user.name, $scope.user.password).then ->
@@ -22,9 +39,7 @@ app.controller "GigListController", ["$scope", "Gig", ($scope, Gig) ->
   $scope.gigs = Gig.query()
 ]
 
-app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrder", "SeatRepository", "Session", ($scope, $routeParams, $location, Gig, GigOrder, SeatRepository, Session) ->
-  $scope.session = Session
-
+app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrder", "SeatRepository", ($scope, $routeParams, $location, Gig, GigOrder, SeatRepository) ->
   $scope.gig = Gig.get({id: $routeParams.gigId})
   $scope.orders = GigOrder.query({gigId: $routeParams.gigId}, (orders) ->
     if $location.search().order
