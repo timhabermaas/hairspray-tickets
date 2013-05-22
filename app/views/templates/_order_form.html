@@ -1,0 +1,46 @@
+<div class="span8">
+  <div class="well" ng-show="selectedOrder != undefined">
+    <div class="alert alert-error" ng-show="selectedOrder.error">
+      Reservierung konnte nicht gespeichert werden!<br />
+      {{selectedOrder.errors}}
+    </div>
+    <ul>
+      <h3>Reservierte Sitze <small ng-show="selectedOrder.paid">bezahlt am {{selectedOrder.paid_at | date}}</small></h3>
+      <li ng-repeat="row in selectedOrder.seats | seatDescriptions">
+        {{row}}
+      </li>
+    </ul>
+    <form>
+      <fieldset>
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" ng-model="selectedOrder.name">
+        <label for="reduced">davon ermäßigte Karten</label>
+        <input id="reduced" name="reduced" type="number" ng-model="selectedOrder.reduced_count">
+      </fieldset>
+      <table class="table bill">
+      <thead>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{(selectedOrder.seats.length - selectedOrder.reduced_count)}} reguläre Karten</td>
+          <td class="price">{{selectedOrder | normalPriceSum}},00€</td>
+        </tr>
+        <tr>
+          <td>{{selectedOrder.reduced_count}} ermäßigte Karten</td>
+          <td class="price">{{selectedOrder | reducedPriceSum}},00€</td>
+        </tr>
+      </tbody>
+      <tfooter>
+        <tr>
+          <th></th>
+          <th class="price">{{selectedOrder | priceSum}},00€</th>
+        </tr>
+      </tfooter>
+    </table>
+      <button type="submit" class="btn btn-primary" ng-click="save(selectedOrder)">Speichern</button>
+      <button ng-show="!selectedOrder.paid && selectedOrder.id" class="btn btn-success" ng-click="pay(selectedOrder)">Hat bezahlt!</button>
+      <button ng-show="selectedOrder.paid  && selectedOrder.id" class="btn btn-warning" ng-click="unpay(selectedOrder)">Bezahlung widerrufen!</button>
+      <button class="btn btn-danger" ng-click="remove(selectedOrder)">Bestellung löschen!</button>
+    </form>
+  </div>
+</div>

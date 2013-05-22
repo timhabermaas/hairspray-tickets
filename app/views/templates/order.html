@@ -5,75 +5,9 @@
 <%= render "seating_plan" %>
 
 <div class="row" ng-show="session.loggedIn">
-  <div class="span4" ng-controller="OrderListController">
-    <ul class="nav nav-tabs">
-      <li ng-repeat="filter in filters" ng-class="{active: currentFilter === filter}">
-        <a href="" ng-click="selectFilter(filter)">{{filter.name}}</a>
-      </li>
-    </ul>
-    <div class="input-prepend">
-      <span class="add-on"><i class="icon-search"></i></span>
-      <input type="search" ng-model="search.name" placeholder="Suche">
-    </div>
-    <ul class="orders nav nav-tabs nav-stacked">
-      <li ng-repeat="order in orders | filter:search | orderBy:'updated_at':true" ng-class="{active: selectedOrder === order}">
-        <a href="" ng-click="selectOrder(order)">
-          {{order.name}}
-          <span class="badge badge-warning" ng-class="{'badge-success': order.paid}">
-            {{order.seats.length}}
-          </span>
-          <span class="badge badge-info" title="Erstellt am {{order.created_at | date}}" ng-bind="order.created_at | date">
-          </span>
-          <span class="badge badge-error" ng-show="order.id == undefined">Nicht gespeichert</span>
-        </a>
-      </li>
-    </ul>
-    <button class="btn btn-primary" ng-click="newOrder()">Neu</button>
-  </div>
-  <div class="span8">
-    <div class="well" ng-show="selectedOrder != undefined">
-      <div class="alert alert-error" ng-show="selectedOrder.error">
-        Reservierung konnte nicht gespeichert werden!<br />
-        {{selectedOrder.errors}}
-      </div>
-      <ul>
-        <h3>Reservierte Sitze <small ng-show="selectedOrder.paid">bezahlt am {{selectedOrder.paid_at | date}}</small></h3>
-        <li ng-repeat="row in selectedOrder.seats | seatDescriptions">
-          {{row}}
-        </li>
-      </ul>
-      <form>
-        <fieldset>
-          <label for="name">Name</label>
-          <input id="name" name="name" type="text" ng-model="selectedOrder.name">
-          <label for="reduced">davon ermäßigte Karten</label>
-          <input id="reduced" name="reduced" type="number" ng-model="selectedOrder.reduced_count">
-        </fieldset>
-        <table class="table bill">
-        <thead>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{(selectedOrder.seats.length - selectedOrder.reduced_count)}} reguläre Karten</td>
-            <td class="price">{{selectedOrder | normalPriceSum}},00€</td>
-          </tr>
-          <tr>
-            <td>{{selectedOrder.reduced_count}} ermäßigte Karten</td>
-            <td class="price">{{selectedOrder | reducedPriceSum}},00€</td>
-          </tr>
-        </tbody>
-        <tfooter>
-          <tr>
-            <th></th>
-            <th class="price">{{selectedOrder | priceSum}},00€</th>
-          </tr>
-        </tfooter>
-      </table>
-        <button type="submit" class="btn btn-primary" ng-click="save(selectedOrder)">Speichern</button>
-        <button ng-show="!selectedOrder.paid && selectedOrder.id" class="btn btn-success" ng-click="pay(selectedOrder)">Hat bezahlt!</button>
-        <button ng-show="selectedOrder.paid  && selectedOrder.id" class="btn btn-warning" ng-click="unpay(selectedOrder)">Bezahlung widerrufen!</button>
-        <button class="btn btn-danger" ng-click="remove(selectedOrder)">Bestellung löschen!</button>
-      </form>
-    </div>
-  </div>
+
+  <%= render "order_list" %>
+
+  <%= render "order_form" %>
+
 </div>
