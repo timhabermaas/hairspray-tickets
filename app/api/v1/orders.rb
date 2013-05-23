@@ -33,10 +33,23 @@ class API::V1::Orders < API::Base
           end
         end
 
-        desc "Delete an order."
-        delete "/:id" do
-          order = gig.orders.find(params["id"])
-          order.destroy
+        segment "/:id" do
+
+          helpers do
+            def order
+              @order ||= gig.orders.find(params["id"])
+            end
+          end
+
+          before do
+            authorize!(:admin) if order.paid?
+          end
+
+          desc "Delete an order."
+          delete "/" do
+            order.destroy
+          end
+
         end
 
         desc "Update an order."
