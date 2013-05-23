@@ -9,7 +9,7 @@
     <input type="search" ng-model="search.name" placeholder="Suche">
   </div>
   <ul class="orders nav nav-tabs nav-stacked">
-    <li ng-repeat="order in orders | filter:search | orderBy:'updated_at':true" ng-class="{active: selectedOrder === order}">
+    <li ng-repeat="order in orders | filter:currentFilter.f | filter:search | orderBy:'updated_at':true" ng-class="{active: selectedOrder === order}">
       <a href="" ng-click="selectOrder(order)">
         {{order.name}}
         <span class="badge badge-warning" ng-class="{'badge-success': order.paid}">

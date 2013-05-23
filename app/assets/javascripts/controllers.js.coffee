@@ -120,7 +120,15 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
 ]
 
 app.controller "OrderListController", ["$scope", ($scope) ->
-  $scope.filters = [{name: "Alle", f: "{}"}, {name: "Nicht bezahlt", f: "notPaid"}]
+  $scope.all = (order) ->
+    true
+
+  $scope.notPaid = (order) ->
+    !order.paid
+
+  # TODO angular doesn't seem to filter at all when using "orders | {paid: false}"
+  #      therefore: workaround using functions
+  $scope.filters = [{name: "Alle", f: $scope.all}, {name: "Nicht bezahlt", f: $scope.notPaid}]
   $scope.currentFilter = $scope.filters[0]
   $scope.selectFilter = (filter) ->
     $scope.currentFilter = filter
