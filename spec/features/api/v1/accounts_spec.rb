@@ -47,17 +47,19 @@ describe API::V1::Accounts do
 
       context "valid parameters" do
 
-        let(:parameters) { {login: "alfred", password: "secret", password_confirmation: "secret"} }
+        let(:parameters) { {login: "alfred", password: "secret", password_confirmation: "secret", role: "admin"} }
 
         its(:status) { should eq(201) }
 
         it "creates an account" do
           expect(Account.count).to eq(2)
-          expect(Account.all.map(&:login)).to include("alfred")
+          expect(Account.last.login).to eq("alfred")
+          expect(Account.last.role).to eq("admin")
         end
 
         it "returns the new account" do
           expect(parsed_response["login"]).to eq("alfred")
+          expect(parsed_response["role"]).to eq("admin")
         end
 
         it "doesn't return the password" do
@@ -82,7 +84,7 @@ describe API::V1::Accounts do
 
       context "password not confirmed" do
 
-        let(:parameters) { {login: "alfred", password: "secret", password_confirmation: "secret2"} }
+        let(:parameters) { {login: "alfred", password: "secret", password_confirmation: "secret2", role: "user"} }
 
         its(:status) { should eq(400) }
 

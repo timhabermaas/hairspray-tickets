@@ -21,6 +21,7 @@ class API::V1::Accounts < API::Base
       requires :login, type: String, desc: "Login"
       requires :password, type: String, desc: "Password"
       requires :password_confirmation, type: String, desc: "Confirmation of password"
+      requires :role, type: String, desc: "Authorization role, could be either 'user' or 'admin'"
     end
     post "/", rabl: "account" do
       @account = Account.create! declared(params)
