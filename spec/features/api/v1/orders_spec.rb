@@ -459,6 +459,7 @@ describe API::V1::Orders do
       end
 
       it { should not_be_authorized }
+
     end
   end
 end
