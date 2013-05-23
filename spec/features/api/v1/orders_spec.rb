@@ -277,49 +277,63 @@ describe API::V1::Orders do
     end
 
     context "updating an order" do
-
-      let(:order_hash) do
-        {
-          name: "Peter",
-          reduced_count: 0,
-          seat_ids: [seat_1.id]
-        }
-      end
-
       subject! do
         put api_base_path + "/gigs/#{gig.id}/orders/#{order.id}", order_hash
       end
 
-      context "valid parameters" do
+      context "order paid" do
 
-        its(:status) { should eq(200) }
+        let(:order) { FactoryGirl.create :paid_order, gig: gig, name: "Dieter", seats: [seat_1], reduced_count: 1 }
 
-        it "updates the record" do
-          expect(order.reload.reduced_count).to eq(0)
-        end
+        let(:order_hash) { {} }
 
-        it "returns the updated record" do
-          expect(parsed_response["name"]).to eq("Peter")
-          expect(parsed_response["reduced_count"]).to eq(0)
-        end
+        it { should not_be_authorized }
 
       end
 
-      context "invalid parameters" do
+      context "order not paid" do
+
+        let(:order) { FactoryGirl.create :not_paid_order, gig: gig, name: "Dieter", seats: [seat_1], reduced_count: 1 }
 
         let(:order_hash) do
           {
+            name: "Peter",
             reduced_count: 0,
             seat_ids: [seat_1.id]
           }
         end
 
-        its(:status) { should eq(400) }
+        context "valid parameters" do
 
-        it "doesn't update the record" do
-          expect(order.reload.reduced_count).not_to eq(0)
+          its(:status) { should eq(200) }
+
+          it "updates the record" do
+            expect(order.reload.reduced_count).to eq(0)
+          end
+
+          it "returns the updated record" do
+            expect(parsed_response["name"]).to eq("Peter")
+            expect(parsed_response["reduced_count"]).to eq(0)
+          end
+
         end
 
+        context "invalid parameters" do
+
+          let(:order_hash) do
+            {
+              reduced_count: 0,
+              seat_ids: [seat_1.id]
+            }
+          end
+
+          its(:status) { should eq(400) }
+
+          it "doesn't update the record" do
+            expect(order.reload.reduced_count).not_to eq(0)
+          end
+
+        end
       end
     end
 
