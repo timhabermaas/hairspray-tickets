@@ -37,10 +37,12 @@
         </tr>
       </tfooter>
     </table>
-      <button type="submit" class="btn btn-primary" ng-click="save(selectedOrder)">Speichern</button>
-      <button ng-show="!selectedOrder.paid && selectedOrder.id" class="btn btn-success" ng-click="pay(selectedOrder)">Hat bezahlt!</button>
-      <button ng-show="selectedOrder.paid  && selectedOrder.id && session.role == 'admin'" class="btn btn-warning" ng-click="unpay(selectedOrder)">Bezahlung widerrufen!</button>
-      <button class="btn btn-danger" ng-click="remove(selectedOrder)" ng-show="!selectedOrder.paid || session.role == 'admin'">Bestellung löschen!</button>
+      <div class="controls" ng-show="!selectedOrder.paid || session.role == 'admin'">
+        <button type="submit" class="btn btn-primary" ng-click="save(selectedOrder)">Speichern</button>
+        <button ng-show="!selectedOrder.paid && selectedOrder.id" class="btn btn-success" ng-click="pay(selectedOrder)">Hat bezahlt!</button>
+        <button ng-show="selectedOrder.paid  && selectedOrder.id" class="btn btn-warning" ng-click="unpay(selectedOrder)">Bezahlung widerrufen!</button>
+        <button class="btn btn-danger" ng-click="remove(selectedOrder)">Bestellung löschen!</button>
+      </div>
     </form>
   </div>
 </div>
