@@ -1,3 +1,3 @@
 collection @accounts
 
-attributes :login, :email, :role
+attributes :login, :role

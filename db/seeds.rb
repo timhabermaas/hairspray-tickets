@@ -75,4 +75,4 @@ unusable_seats.update_all(:usable => false)
 
 
 Account.delete_all
-Account.create! login: "admin", password: "admin", role: "admin", email: "unwichtig@muh.com"
+Account.create! login: "admin", password: "admin", role: "admin"

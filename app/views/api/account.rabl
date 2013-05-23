@@ -1,3 +1,3 @@
 object @account
 
-attributes :login, :email, :role
+attributes :login, :role

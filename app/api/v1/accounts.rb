@@ -19,7 +19,6 @@ class API::V1::Accounts < API::Base
     desc "Create an account."
     params do
       requires :login, type: String, desc: "Login"
-      requires :email, type: String, desc: "Email"
       requires :password, type: String, desc: "Password"
       requires :password_confirmation, type: String, desc: "Confirmation of password"
     end

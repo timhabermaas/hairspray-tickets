@@ -14,7 +14,7 @@ describe API::V1::Accounts do
 
     describe "fetching accounts" do
 
-      let!(:account_1) { FactoryGirl.create :account, login: "abcd", email: "muh@cow.com" }
+      let!(:account_1) { FactoryGirl.create :account, login: "abcd" }
       let!(:account_2) { FactoryGirl.create :account, login: "ufo" }
 
       subject! do
@@ -28,7 +28,7 @@ describe API::V1::Accounts do
         expect(parsed_response[0]["login"]).to eq("hans")
         expect(parsed_response[1]["login"]).to eq("abcd")
         expect(parsed_response[2]["login"]).to eq("ufo")
-        expect(parsed_response[1]["email"]).to eq("muh@cow.com")
+        expect(parsed_response[0]["role"]).to eq("admin")
       end
 
       it "doesn't return a password" do
@@ -47,7 +47,7 @@ describe API::V1::Accounts do
 
       context "valid parameters" do
 
-        let(:parameters) { {login: "alfred", email: "muh@cow.com", password: "secret", password_confirmation: "secret"} }
+        let(:parameters) { {login: "alfred", password: "secret", password_confirmation: "secret"} }
 
         its(:status) { should eq(201) }
 
@@ -70,19 +70,19 @@ describe API::V1::Accounts do
 
       context "missing paramater" do
 
-        let(:parameters) { {login: "alfred", password: "secret", password_confirmation: "secret"} }
+        let(:parameters) { {password: "secret", password_confirmation: "secret"} }
 
         its(:status) { should eq(400) }
 
         it "returns the error" do
-          expect(parsed_response["error"]).to eq("missing parameter: email")
+          expect(parsed_response["error"]).to eq("missing parameter: login")
         end
 
       end
 
       context "password not confirmed" do
 
-        let(:parameters) { {login: "alfred", email: "muh@cow.com", password: "secret", password_confirmation: "secret2"} }
+        let(:parameters) { {login: "alfred", password: "secret", password_confirmation: "secret2"} }
 
         its(:status) { should eq(400) }
 
