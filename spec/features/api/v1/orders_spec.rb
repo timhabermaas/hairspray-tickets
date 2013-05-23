@@ -350,11 +350,7 @@ describe API::V1::Orders do
 
         let(:order) { FactoryGirl.create :paid_order, gig: gig, name: "Dieter" }
 
-        its(:status) { should eq(401) }
-
-        it "returns 'not authorized'" do
-          expect(parsed_response["error"]).to eq("not authorized")
-        end
+        it { should not_be_authorized }
 
       end
 
@@ -389,11 +385,7 @@ describe API::V1::Orders do
         post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/unpay"
       end
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized'" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
 
     end
   end
@@ -426,12 +418,7 @@ describe API::V1::Orders do
         post api_base_path + "/gigs/#{gig.id}/orders"
       end
 
-      # TODO write matcher for not authorized response
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized'" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
 
     end
 
@@ -441,11 +428,7 @@ describe API::V1::Orders do
         put api_base_path + "/gigs/#{gig.id}/orders/#{order.id}"
       end
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized'" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
 
     end
 
@@ -455,11 +438,7 @@ describe API::V1::Orders do
         delete api_base_path + "/gigs/#{gig.id}/orders/#{order.id}"
       end
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
 
     end
 
@@ -469,11 +448,7 @@ describe API::V1::Orders do
         post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/pay"
       end
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
 
     end
 
@@ -483,11 +458,7 @@ describe API::V1::Orders do
         post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/unpay"
       end
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
     end
   end
 end

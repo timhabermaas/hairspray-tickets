@@ -110,11 +110,7 @@ describe API::V1::Accounts do
         get api_base_path + "/accounts"
       end
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
 
     end
 
@@ -124,11 +120,7 @@ describe API::V1::Accounts do
         get api_base_path + "/accounts"
       end
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
 
     end
   end
@@ -141,11 +133,7 @@ describe API::V1::Accounts do
         get api_base_path + "/accounts"
       end
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
 
     end
 
@@ -155,11 +143,7 @@ describe API::V1::Accounts do
         get api_base_path + "/accounts"
       end
 
-      its(:status) { should eq(401) }
-
-      it "returns 'not authorized" do
-        expect(parsed_response["error"]).to eq("not authorized")
-      end
+      it { should not_be_authorized }
 
     end
   end
