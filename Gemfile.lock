@@ -90,6 +90,7 @@ GEM
     mime-types (1.22)
     multi_json (1.7.2)
     multi_xml (0.5.3)
+    newrelic_rpm (3.5.4.34)
     oj (2.0.0)
     pg (0.14.1)
     polyglot (0.3.3)
@@ -182,6 +183,7 @@ DEPENDENCIES
   grape-rabl
   jasmine-rails
   jquery-rails
+  newrelic_rpm
   oj
   pg
   rails (= 3.2.13)
