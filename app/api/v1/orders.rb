@@ -13,7 +13,7 @@ class API::V1::Orders < API::Base
 
       desc "Fetches all orders."
       get "/", rabl: "orders" do
-        @orders = gig.orders
+        @orders = gig.orders.includes(:seats => :row)
       end
 
       segment do # restricted to user, admin
