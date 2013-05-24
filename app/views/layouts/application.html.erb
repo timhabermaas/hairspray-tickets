@@ -11,6 +11,11 @@
 <div class="navbar" ng-submit="login()" ng-controller="SessionController" ng-show="showNavigation">
   <div class="navbar-inner">
     <a href="#" class="brand">Hairspray 2013</a>
+    <ul class="nav" ng-show="session.role == 'admin'">
+      <li>
+        <a ng-href="#/accounts">Accounts</a>
+      </li>
+    </ul>
     <form class="navbar-form pull-right" ng-show="!session.loggedIn">
       <input type="text" ng-model="user.name" class="span2" name="name" placeholder="Name">
       <input type="password" ng-model="user.password" class="span2" name="password" placeholder="Passwort">
