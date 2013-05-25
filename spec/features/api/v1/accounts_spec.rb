@@ -94,6 +94,21 @@ describe API::V1::Accounts do
 
       end
     end
+
+    describe "removing of account" do
+
+      let(:account) { FactoryGirl.create :account }
+
+      subject! do
+        delete api_base_path + "/accounts/#{account.id}"
+      end
+
+      its(:status) { should eq(200) }
+
+      it "should remove the account" do
+        expect(Account.find_by_id(account.id)).to be_nil
+      end
+    end
   end
 
   context "when logged in as user" do

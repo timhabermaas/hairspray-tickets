@@ -13,7 +13,7 @@ app.factory "Seat", ["$resource", ($resource) ->
 ]
 
 app.factory "Account", ["$resource", ($resource) ->
-  $resource "api/v1/accounts", commonParameters...
+  $resource "api/v1/accounts/:id", {id: "@id"}, commonParameters...
 ]
 
 app.factory "SessionResource", ["$resource", ($resource) ->

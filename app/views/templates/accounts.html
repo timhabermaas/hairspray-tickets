@@ -4,13 +4,19 @@
   <thead>
     <tr>
       <th>Login Name</th>
-      <th>Rolle</th>
+      <th>Rechte</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="account in accounts">
       <td>{{account.login}}</td>
       <td>{{account.role}}</td>
+      <td>
+        <button class="btn btn-mini btn-danger" ng-click="remove(account)">
+          Löschen
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>

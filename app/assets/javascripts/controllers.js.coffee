@@ -19,6 +19,10 @@ app.controller "PageController", ["$scope", "$location", "Session", ($scope, $lo
 
 app.controller "AccountsController", ["$scope", "Account", ($scope, Account) ->
   $scope.accounts = Account.query()
+
+  $scope.remove = (account) ->
+    account.$remove (response) ->
+      $scope.accounts = _.reject($scope.accounts, (a) -> a.id == account.id)
 ]
 
 app.controller "SessionController", ["$scope", "$http", "$location", "Session", ($scope, $http, $location, Session) ->

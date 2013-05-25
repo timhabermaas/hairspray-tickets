@@ -27,5 +27,14 @@ class API::V1::Accounts < API::Base
       @account = Account.create! declared(params)
     end
 
+    desc "Remove an account."
+    params do
+      requires :id, type: Integer, desc: "Account Id"
+    end
+    delete "/:id" do
+      account = Account.find params[:id]
+      account.destroy
+    end
+
   end
 end
