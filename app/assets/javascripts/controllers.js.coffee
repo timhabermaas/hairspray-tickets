@@ -93,7 +93,7 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
     $location.search("order", null)
 
   $scope.newOrder = ->
-    $scope.selectedOrder = new GigOrder({name: "Besucher ##{$scope.orders.length}", reduced_count: 0, seats: []})
+    $scope.selectedOrder = new GigOrder({reduced_count: 0, seats: []})
     $scope.orders.push $scope.selectedOrder
     $location.search("order", "")
 
