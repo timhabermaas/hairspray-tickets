@@ -277,6 +277,7 @@ describe API::V1::Orders do
     end
 
     context "updating an order" do
+
       subject! do
         put api_base_path + "/gigs/#{gig.id}/orders/#{order.id}", order_hash
       end
