@@ -83,6 +83,10 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
     $scope.selectedOrder = order
     $location.search("order", order.id)
 
+  $scope.deselectOrder = () ->
+    $scope.selectedOrder = null
+    $location.search("order", null)
+
   $scope.newOrder = ->
     $scope.selectedOrder = new GigOrder({name: "Besucher ##{$scope.orders.length}", reduced_count: 0, seats: []})
     $scope.orders.push $scope.selectedOrder
@@ -100,6 +104,7 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
     if order.id
       order.$update({gigId: $scope.gig.id}, (r) ->
         order.error = false
+        $scope.deselectOrder()
       , (r) ->
         order.error = true
         order.errors = r.data.error
@@ -107,6 +112,7 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
     else
       order.$save({gigId: $scope.gig.id}, (r) ->
         order.error = false
+        $scope.deselectOrder()
       , (r) ->
         order.error = true
         order.errors = r.data.error
