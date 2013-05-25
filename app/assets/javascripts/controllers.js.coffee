@@ -71,7 +71,7 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
 
   $scope.strokeColor = (order) ->
     if $scope.selectedOrder == order
-      "#c0392b"
+      "#0000c8"
     else
       "none"
 
