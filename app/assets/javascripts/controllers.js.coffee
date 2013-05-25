@@ -65,7 +65,7 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
   # hs-seatcolor="seat"
   $scope.fillColor = (order) ->
     if order.paid
-      "rgba(51, 204, 100, 0.8)"
+      "rgba(200, 0, 0, 0.7)"
     else
       "rgba(243, 156, 18, 0.8)"
 
