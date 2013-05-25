@@ -4,8 +4,8 @@
       Reservierung konnte nicht gespeichert werden!<br />
       {{selectedOrder.errors}}
     </div>
+    <h3>Reservierte Sitze <small ng-show="selectedOrder.paid">bezahlt am {{selectedOrder.paid_at | date}}</small></h3>
     <ul>
-      <h3>Reservierte Sitze <small ng-show="selectedOrder.paid">bezahlt am {{selectedOrder.paid_at | date}}</small></h3>
       <li ng-repeat="row in selectedOrder.seats | seatDescriptions">
         {{row}}
       </li>
