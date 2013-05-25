@@ -1,6 +1,7 @@
 class Account < ActiveRecord::Base
   validate :login, :role, :presence => true
   validate :role, :inclusion => { :in => %w(user admin) }
+  validates_uniqueness_of :login
 
   has_secure_password
 

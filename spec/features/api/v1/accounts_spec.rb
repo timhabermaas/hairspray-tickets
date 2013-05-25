@@ -97,7 +97,7 @@ describe API::V1::Accounts do
 
     describe "removing of account" do
 
-      let(:account) { FactoryGirl.create :account }
+      let(:account) { FactoryGirl.create :account, login: "muh" }
 
       subject! do
         delete api_base_path + "/accounts/#{account.id}"
