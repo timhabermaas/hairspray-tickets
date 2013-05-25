@@ -1,6 +1,6 @@
 object @gig
 
-attributes :id, :title, :date
+attributes :id, :title, :date, :free_seats
 
 child @gig.prev_gig => :prev_gig do
   attributes :id, :title

@@ -48,6 +48,10 @@ describe API::V1::Gigs do
       expect(parsed_response["date"]).to include("2013-02-01")
     end
 
+    it "should have free_seats" do
+      expect(parsed_response["free_seats"]).to eq(5)
+    end
+
     it "should return the next gig" do
       expect(parsed_response["next_gig"]["id"]).to eq(next_gig.id)
       expect(parsed_response["next_gig"]["title"]).to eq(next_gig.title)
