@@ -1,0 +1,24 @@
+<div class="alert alert-error" ng-show="account.error">
+  Account konnte nicht gespeichert werden!<br />
+  {{account.errors}}
+</div>
+
+<form ng-submit="save(account)">
+  <fieldset>
+    <label for="login">Login Name</label>
+    <input id="login" name="login" type="text" ng-model="account.login">
+
+    <label for="password">Passwort</label>
+    <input id="password" name="password" type="password" ng-model="account.password">
+
+    <label for="password_confirmation">Passwort-Bestätigung</label>
+    <input id="password_confirmation" name="password_confirmation" type="password" ng-model="account.password_confirmation">
+
+    <label for="role">Rechte</label>
+    <select name="role" id="role" ng-model="account.role">
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select>
+  </fieldset>
+  <input type="submit" class="btn btn-primary">
+</form>

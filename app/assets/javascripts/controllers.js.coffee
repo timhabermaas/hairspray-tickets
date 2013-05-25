@@ -139,3 +139,13 @@ app.controller "OrderListController", ["$scope", ($scope) ->
   $scope.selectFilter = (filter) ->
     $scope.currentFilter = filter
 ]
+
+app.controller "NewAccountController", ["$scope", "$location", "Account", ($scope, $location, Account) ->
+  $scope.save = (account) ->
+    Account.save(account, (response) ->
+      $location.path("/accounts")
+    , (response) ->
+      account.error = true
+      account.errors = response.data.error
+    )
+]
