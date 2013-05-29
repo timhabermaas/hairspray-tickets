@@ -13,7 +13,7 @@
     <li ng-repeat="order in orders | filter:currentFilter.f | filter:search | orderBy:'updated_at':true" ng-class="{active: selectedOrder === order}">
       <a href="" ng-click="selectOrder(order)">
         {{order.name}}
-        <span class="badge badge-warning" ng-class="{'badge-success': order.paid}">
+        <span class="badge" ng-class="{'badge-important': order.paid, 'badge-warning': !order.paid}">
           {{order.seats.length}}
         </span>
         <span class="badge badge-info" title="Erstellt am {{order.created_at | date}}" ng-bind="order.created_at | date">
