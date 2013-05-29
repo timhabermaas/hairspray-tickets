@@ -12,9 +12,12 @@
   <ul class="orders nav nav-tabs nav-stacked">
     <li ng-repeat="order in orders | filter:currentFilter.f | filter:search | orderBy:'updated_at':true" ng-class="{active: selectedOrder === order}">
       <a href="" ng-click="selectOrder(order)">
+        <span class="badge">
+          {{order.id}}
+        </span>
         {{order.name}}
         <span class="badge" ng-class="{'badge-important': order.paid, 'badge-warning': !order.paid}">
-          {{order.seats.length}}
+          {{order.seats.length}} Plätze
         </span>
         <span class="badge badge-info" title="Erstellt am {{order.created_at | date}}" ng-bind="order.created_at | date">
         </span>
