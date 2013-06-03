@@ -12,10 +12,6 @@ class Order < ActiveRecord::Base
     not paid_at.nil?
   end
 
-  def seats_count
-    reservations_count
-  end
-
   def pay!
     self.paid_at = DateTime.now
     save
