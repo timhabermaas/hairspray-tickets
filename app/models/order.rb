@@ -22,6 +22,11 @@ class Order < ActiveRecord::Base
     save
   end
 
+  # TODO extract configuration
+  def costs(full_cost = 15, reduced_cost = 12)
+    (seats.size - reduced_count) * full_cost + reduced_count * reduced_cost
+  end
+
   private
   def has_not_more_reduced_seats_than_seats
     errors.add :reduced_count, "can't exceed total number of seats" if reduced_count > seats.size

@@ -19,6 +19,7 @@ FactoryGirl.define do
   factory :order do
     name "Hans Mustermann"
     reduced_count 1
+    email "hans@mustermann.de"
     gig { FactoryGirl.create :gig }
     seats { FactoryGirl.create_list :seat, 2 }
 

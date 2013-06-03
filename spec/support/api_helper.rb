@@ -9,6 +9,10 @@ module ApiHelper
     JSON.parse(last_response.body)
   end
 
+  def last_email
+    ActionMailer::Base.deliveries.last
+  end
+
   def api_base_path
     "/api/v1"
   end

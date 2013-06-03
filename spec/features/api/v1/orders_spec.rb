@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "spec_helper"
 
 describe API::V1::Orders do
@@ -52,7 +54,7 @@ describe API::V1::Orders do
           name: "Peter",
           reduced_count: 0,
           email: "peter@mustermann.de",
-          seat_ids: [seat_1.id]
+          seat_ids: [seat_1.id, seat_2.id]
         }
       end
 
@@ -68,6 +70,13 @@ describe API::V1::Orders do
           expect(parsed_response["id"]).to_not be_nil
           expect(parsed_response["name"]).to eq("Peter")
           expect(parsed_response["email"]).to eq("peter@mustermann.de")
+          expect(parsed_response["seats"]).to have(2).items
+        end
+
+        it "sends an email to the customer asking him to pay for two tickets" do
+          expect(last_email.body).to include("Bitte überweisen Sie den Betrag von")
+          expect(last_email.body).to include("30,00 €")
+          expect(last_email.body).to include(parsed_response["id"].to_s)
         end
 
       end
@@ -160,7 +169,7 @@ describe API::V1::Orders do
 
     context "paying an order" do
 
-      let(:order) { FactoryGirl.create :not_paid_order, name: "Peter" }
+      let(:order) { FactoryGirl.create :not_paid_order, name: "Peter", email: "peter@mustermann.de" }
 
       subject! do
         post api_base_path + "/gigs/#{order.gig.id}/orders/#{order.id}/pay"
@@ -175,6 +184,12 @@ describe API::V1::Orders do
       it "returns an updated model" do
         expect(parsed_response["name"]).to eq("Peter")
         expect(parsed_response["paid"]).to eq(true)
+      end
+
+      it "sends an email confirming the payment" do
+        expect(last_email.to).to include("peter@mustermann.de")
+        expect(last_email.body).to include("Zahlung in Höhe von")
+        # expect(last_email.body).to include(order.id) # TODO move this into OrderMailerSpec, it's useless
       end
 
     end

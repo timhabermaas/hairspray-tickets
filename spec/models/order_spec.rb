@@ -49,4 +49,15 @@ describe Order do
       expect(order.reload).to_not be_paid
     end
   end
+
+  describe "costs" do
+    let(:order) { FactoryGirl.create :order, seats: [seat] }
+
+    it "returns" do
+      order = Order.new
+      order.stub(reduced_count: 1)
+      order.stub(seats: [stub] * 3)
+      expect(order.costs(15, 12)).to eq(42)
+    end
+  end
 end
