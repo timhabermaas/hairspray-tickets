@@ -51,6 +51,7 @@ describe API::V1::Orders do
         {
           name: "Peter",
           reduced_count: 0,
+          email: "peter@mustermann.de",
           seat_ids: [seat_1.id]
         }
       end
@@ -66,6 +67,7 @@ describe API::V1::Orders do
         it "returns a newly created order" do
           expect(parsed_response["id"]).to_not be_nil
           expect(parsed_response["name"]).to eq("Peter")
+          expect(parsed_response["email"]).to eq("peter@mustermann.de")
         end
 
       end
@@ -94,6 +96,7 @@ describe API::V1::Orders do
         {
           name: "Peter",
           reduced_count: 0,
+          email: "peter@mustermann.de",
           seat_ids: [seat_1.id]
         }
       end
@@ -113,6 +116,7 @@ describe API::V1::Orders do
         it "returns the updated record" do
           expect(parsed_response["name"]).to eq("Peter")
           expect(parsed_response["reduced_count"]).to eq(0)
+          expect(parsed_response["email"]).to eq("peter@mustermann.de")
         end
 
       end

@@ -25,6 +25,7 @@ class API::V1::Orders < API::Base
           requires :name, type: String, desc: "Name"
           requires :reduced_count, type: Integer, desc: "Amount of reduced tickets"
           requires :seat_ids, type: Array, desc: "Seats to be reserved"
+          optional :email, type: String, desc: "Email address for notifying customer"
         end
         post "/", rabl: "order" do
           @order = gig.orders.build declared(params)
@@ -57,6 +58,7 @@ class API::V1::Orders < API::Base
             requires :name, type: String, desc: "Name"
             requires :reduced_count, type: Integer, desc: "Amount of reduced tickets"
             requires :seat_ids, type: Array, desc: "Seats to be reserved"
+            optional :email, type: String, desc: "Email address for notifying customer"
           end
           put "/", rabl: "order" do
             if !order.update_attributes(declared(params))
