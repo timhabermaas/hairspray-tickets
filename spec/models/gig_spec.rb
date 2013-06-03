@@ -19,12 +19,12 @@ describe Gig do
   end
 
   describe "#free_seats" do
-    let(:orders) { [stub(:order, :seats_count => 4),
-                    stub(:order, :seats_count => 10)] }
+    let(:orders) { [stub(:order, :seats => [stub] * 4),
+                    stub(:order, :seats => [stub] * 10)] }
 
     it "returns 6 if two orders have reserved 4 and 10 seats respectively" do
-      Seat.should_receive(:usable_count).and_return(20)
-      subject.should_receive(:orders).and_return orders
+      Seat.stub(:usable_count => 20)
+      subject.stub(:orders => orders)
       expect(subject.free_seats).to eq(6)
     end
   end

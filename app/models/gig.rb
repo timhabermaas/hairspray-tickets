@@ -4,7 +4,7 @@ class Gig < ActiveRecord::Base
   has_many :orders
 
   def reserved_seats
-    orders.inject(0) { |sum, o|  sum + o.seats_count }
+    orders.inject(0) { |sum, o|  sum + o.seats.size }
   end
 
   def free_seats
