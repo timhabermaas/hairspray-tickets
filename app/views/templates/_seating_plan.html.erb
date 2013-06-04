@@ -15,7 +15,7 @@
           </g>
           <g transform="translate(20, 0)">
             <g ng-repeat="order in orders">
-              <rect ng-repeat="seat in order.seats" x="{{seat.x * 18}}" y="{{seat.row.y * 25}}" width="18" height="18" class="seat" style="fill:{{fillColor(order)}}; stroke:{{strokeColor(order)}}; stroke-width: 2" ng-click="deselectSeat(seat)"></rect>
+              <rect ng-repeat="seat in order.seats" x="{{seat.x * 18}}" y="{{seat.row.y * 25}}" width="18" height="18" class="seat" style="fill:{{fillColor(order)}}; stroke:{{strokeColor(order)}}; stroke-width: 2" ng-click="clickReservedSeat(seat, order)"></rect>
             </g>
           </g>
 

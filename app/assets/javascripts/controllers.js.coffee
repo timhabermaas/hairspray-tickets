@@ -82,10 +82,11 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
     return if !seat.usable || $scope.selectedOrder.paid
     $scope.selectedOrder.seats.push(seat)
 
-  $scope.deselectSeat = (seat) ->
-    return if $scope.selectedOrder.paid
-    return unless seat in $scope.selectedOrder.seats
-    $scope.selectedOrder.seats.remove(seat)
+  $scope.clickReservedSeat = (seat, order) ->
+    if order == $scope.selectedOrder
+      $scope.selectedOrder.seats.remove(seat) unless $scope.selectedOrder.paid
+    else
+      $scope.selectedOrder = order
 
   $scope.selectOrder = (order) ->
     $scope.selectedOrder = order
