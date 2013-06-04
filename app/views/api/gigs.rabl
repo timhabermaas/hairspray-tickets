@@ -1,3 +1,3 @@
 collection @gigs
 
-attributes :id, :title, :free_seats
+attributes :id, :title, :free_seats, :date

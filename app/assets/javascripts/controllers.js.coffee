@@ -46,6 +46,7 @@ app.controller "GigListController", ["$scope", "Gig", ($scope, Gig) ->
 
 app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig", "GigOrder", "SeatRepository", ($scope, $routeParams, $location, Gig, GigOrder, SeatRepository) ->
   $scope.gig = Gig.get({id: $routeParams.gigId})
+  $scope.gigs = Gig.query()
   $scope.orders = GigOrder.query({gigId: $routeParams.gigId}, (orders) ->
     if $location.search().order
       $scope.selectedOrder = _.find orders, (o) -> o.id == parseInt($location.search().order)
