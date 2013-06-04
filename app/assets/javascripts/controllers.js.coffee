@@ -78,6 +78,7 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
       "none"
 
   $scope.selectSeat = (seat) ->
+    return unless $scope.selectedOrder
     return if !seat.usable || $scope.selectedOrder.paid
     $scope.selectedOrder.seats.push(seat)
 
