@@ -51,8 +51,6 @@ describe Order do
   end
 
   describe "costs" do
-    let(:order) { FactoryGirl.create :order, seats: [seat] }
-
     it "returns" do
       order = Order.new
       order.stub(reduced_count: 1)
