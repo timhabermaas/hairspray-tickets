@@ -6,7 +6,16 @@ button.new-order {
   margin-bottom: 1em;
 }
 
-.gigs.pager li {
-  margin-left: 2.2em;
-  margin-right: 2.2em;
+.gigs.pager {
+  min-width: 1100px;
+  li {
+    margin-left: 2.2em;
+    margin-right: 2.2em;
+  }
+  li:first-child {
+    margin-left: 0;
+  }
+  li:last-child {
+    margin-right: 0;
+  }
 }
