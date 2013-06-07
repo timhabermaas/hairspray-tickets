@@ -33,9 +33,7 @@ describe API::V1::Gigs do
 
   context "fetching of gig" do
 
-    let!(:prev_gig) { Gig.create! title: "Gig #1", date: DateTime.new(2013, 1, 10) }
     let!(:gig) { Gig.create! title: "Gig #2", date: DateTime.new(2013, 2, 1) }
-    let!(:next_gig) { Gig.create! title: "Gig #3", date: DateTime.new(2013, 2, 5) }
 
     subject! do
       get api_base_path + "/gigs/#{gig.id}"
@@ -50,16 +48,6 @@ describe API::V1::Gigs do
 
     it "should have free_seats" do
       expect(parsed_response["free_seats"]).to eq(5)
-    end
-
-    it "should return the next gig" do
-      expect(parsed_response["next_gig"]["id"]).to eq(next_gig.id)
-      expect(parsed_response["next_gig"]["title"]).to eq(next_gig.title)
-    end
-
-    it "should return the previous gig" do
-      expect(parsed_response["prev_gig"]["id"]).to eq(prev_gig.id)
-      expect(parsed_response["prev_gig"]["title"]).to eq(prev_gig.title)
     end
   end
 end
