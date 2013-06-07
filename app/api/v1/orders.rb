@@ -65,7 +65,7 @@ class API::V1::Orders < API::Base
           end
           put "/", rabl: "order" do
             if !order.update_attributes(declared(params))
-              error!({error: order.errors}, 422)
+              error!({error: order.errors}, 400)
             end
           end
 
