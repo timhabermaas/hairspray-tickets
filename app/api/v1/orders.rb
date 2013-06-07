@@ -47,7 +47,7 @@ class API::V1::Orders < API::Base
           desc "Pay an order."
           post "/pay", rabl: "order" do
             order.pay!
-            OrderMailer.payment_confirmation_email(order).deliver if @order.email?
+            OrderMailer.payment_confirmation_email(order).deliver if order.email?
             status 200
           end
 
