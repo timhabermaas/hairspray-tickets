@@ -8,6 +8,7 @@ describe API::V1::Orders do
   let!(:row) { Row.create! number: 2, y: 3 }
   let!(:seat_1) { Seat.create! number: 3, x: 4, row: row }
   let!(:seat_2) { Seat.create! number: 4, x: 5, row: row }
+  let!(:seat_3) { Seat.create! number: 5, x: 6, row: row }
   let!(:order) { Order.create! gig: gig, name: "Dieter", seats: [seat_1], paid_at: DateTime.new(2013, 4, 5), reduced_count: 1 }
   let!(:order_2) { Order.create! gig: gig_2, name: "Peter", seats: [seat_1] }
 
@@ -54,7 +55,7 @@ describe API::V1::Orders do
           name: "Peter",
           reduced_count: 0,
           email: "peter@mustermann.de",
-          seat_ids: [seat_1.id, seat_2.id]
+          seat_ids: [seat_2.id, seat_3.id]
         }
       end
 
@@ -94,6 +95,26 @@ describe API::V1::Orders do
 
         it "returns the error" do
           expect(parsed_response["error"]).to eq("missing parameter: name")
+        end
+
+      end
+
+      context "trying to reserve a seat twice" do
+
+        before do
+          post api_base_path + "/gigs/#{gig.id}/orders", order_hash
+        end
+
+        subject do
+          post api_base_path + "/gigs/#{gig.id}/orders", order_hash
+        end
+
+        it "has status 400" do
+          expect(last_response.status).to eq(400)
+        end
+
+        it "returns the error" do
+          expect(parsed_response["error"]["seats"]).to eq(["may not be reserved twice"])
         end
 
       end
@@ -258,7 +279,7 @@ describe API::V1::Orders do
         {
           name: "Peter",
           reduced_count: 0,
-          seat_ids: [seat_1.id]
+          seat_ids: [seat_3.id]
         }
       end
 
