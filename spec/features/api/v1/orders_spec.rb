@@ -113,10 +113,6 @@ describe API::V1::Orders do
           expect(last_response.status).to eq(400)
         end
 
-        it "returns the error" do
-          expect(parsed_response["error"]["seats"]).to eq(["may not be reserved twice"])
-        end
-
       end
     end
 

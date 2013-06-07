@@ -33,44 +33,6 @@ describe Order do
       expect(valid_order).to_not be_valid
       expect(valid_order.errors[:seats]).to_not be_blank
     end
-
-    describe "seats may only be reserved once" do
-      let(:seat_1) { FactoryGirl.create :seat }
-      let(:seat_2) { FactoryGirl.create :seat }
-      let(:seat_3) { FactoryGirl.create :seat }
-      let(:gig_1) { FactoryGirl.create :gig }
-      let(:gig_2) { FactoryGirl.create :gig }
-
-      before do
-        FactoryGirl.create :order, :seats => [seat_1, seat_2], :gig => gig_1
-      end
-
-      context "new record" do
-        subject { FactoryGirl.build :order, :seats => [seat_1], :gig => gig_1 }
-
-        it "may only reserve each seat once" do
-          expect(subject).to_not be_valid
-          expect(subject.errors[:seats]).to_not be_blank
-        end
-      end
-
-      context "old record" do
-        subject { FactoryGirl.create :order, :seats => [seat_3], :gig => gig_1 }
-
-        it "let's you still update orders" do
-          subject.name = "Peter"
-          expect(subject).to be_valid
-        end
-      end
-
-      context "different gig" do
-        subject { FactoryGirl.build :order, :seats => [seat_1], :gig => gig_2 }
-
-        it "is valid" do
-          expect(subject).to be_valid
-        end
-      end
-    end
   end
 
   describe "#pay!" do

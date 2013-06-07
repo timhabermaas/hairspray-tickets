@@ -3,6 +3,7 @@ class Reservation < ActiveRecord::Base
   belongs_to :order
 
   validates_presence_of :order_id, :seat_id, :gig_id
+  validates_uniqueness_of :seat_id, scope: :gig_id
 
   before_validation :set_gig_id
 
