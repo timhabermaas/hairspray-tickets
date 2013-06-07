@@ -40,4 +40,9 @@ FactoryGirl.define do
     password "secret"
     role "user"
   end
+
+  factory :reservation do
+    seat { FactoryGirl.create :seat }
+    order { FactoryGirl.create :order }
+  end
 end
