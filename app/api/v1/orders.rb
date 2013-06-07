@@ -30,7 +30,7 @@ class API::V1::Orders < API::Base
         post "/", rabl: "order" do
           @order = gig.orders.build declared(params)
           if @order.save
-            OrderMailer.ordered_email(@order).deliver if @order.email?
+            OrderMailer.ordered_email(@order).deliver if @order.email.present?
           else
             error!({error: @order.errors}, 400)
           end
@@ -47,7 +47,7 @@ class API::V1::Orders < API::Base
           desc "Pay an order."
           post "/pay", rabl: "order" do
             order.pay!
-            OrderMailer.payment_confirmation_email(order).deliver if order.email?
+            OrderMailer.payment_confirmation_email(order).deliver if order.email.present?
             status 200
           end
 
