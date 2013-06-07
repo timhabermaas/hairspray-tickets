@@ -4,7 +4,7 @@
 
 <ul class="gigs nav nav-tabs nav-stacked">
   <li ng-repeat="gig in gigs">
-    <a ng-href="#/auffuehrungen/{{gig.id}}/orders">{{gig.title}} <small>{{gig.date | germanDate}}</small> <span class="badge badge-success">{{gig.free_seats}} freie Plätze</span></a>
+    <a ng-href="#/auffuehrungen/{{gig.id}}/orders">{{gig.title}} <small>{{gig.date | germanDate}}</small> <span class="badge" ng-class="(gig.free_seats == 0) ? 'badge-important' : 'badge-success'">{{gig.free_seats}} freie Plätze</span></a>
   </li>
 </ul>
 
