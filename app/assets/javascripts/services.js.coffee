@@ -30,7 +30,6 @@ app.factory "Session", ["SessionResource", "$http", "$q", (SessionResource, $htt
     $http({method: "DELETE", url: "/api/v1/sessions/current"}).success ->
       session.loggedIn = false
       session.name = null
-      session.apiKey = null
 
   session.getCurrent = ->
     $http({method: "GET", url: "/api/v1/sessions/current"}).success (data) ->
