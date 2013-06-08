@@ -28,8 +28,6 @@ describe API::V1::Orders do
         get api_base_path + "/gigs/#{gig.id}/orders"
       end
 
-      let(:api_key) { create_valid_api_key_for(:user) }
-
       its(:status) { should eq(200) }
 
       it "returns all orders for that gig" do
@@ -248,8 +246,6 @@ describe API::V1::Orders do
       subject! do
         get api_base_path + "/gigs/#{gig.id}/orders"
       end
-
-      let(:api_key) { create_valid_api_key_for(:user) }
 
       its(:status) { should eq(200) }
 
