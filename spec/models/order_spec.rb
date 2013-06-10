@@ -63,7 +63,7 @@ describe Order do
   end
 
   describe "#destroy" do
-    let(:order) { FactoryGirl.create :order }
+    let!(:order) { FactoryGirl.create :order }
 
     it "removes all associated reservations when being destroyed" do
       expect {
