@@ -64,7 +64,12 @@ class API::V1::Orders < API::Base
             optional :email, type: String, desc: "Email address for notifying customer"
           end
           put "/", rabl: "order" do
-            if !order.update_attributes(declared(params))
+            order.assign_attributes(declared(params))
+            email_changed = order.email_changed?
+
+            if order.save
+              OrderMailer.ordered_email(order).deliver if order.email.present? and email_changed
+            else
               error!({error: order.errors}, 400)
             end
           end

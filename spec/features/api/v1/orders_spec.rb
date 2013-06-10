@@ -9,7 +9,7 @@ describe API::V1::Orders do
   let!(:seat_1) { Seat.create! number: 3, x: 4, row: row }
   let!(:seat_2) { Seat.create! number: 4, x: 5, row: row }
   let!(:seat_3) { Seat.create! number: 5, x: 6, row: row }
-  let!(:order) { Order.create! gig: gig, name: "Dieter", seats: [seat_1], paid_at: DateTime.new(2013, 4, 5), reduced_count: 1 }
+  let!(:order) { Order.create! gig: gig, name: "Dieter", email: "peter@mustermann.de", seats: [seat_1], paid_at: DateTime.new(2013, 4, 5), reduced_count: 1 }
   let!(:order_2) { Order.create! gig: gig_2, name: "Peter", seats: [seat_1] }
 
   context "when logged in as admin" do
@@ -118,10 +118,10 @@ describe API::V1::Orders do
 
       let(:order_hash) do
         {
-          name: "Peter",
+          name: order.name,
           reduced_count: 0,
-          email: "peter@mustermann.de",
-          seat_ids: [seat_1.id]
+          email: order.email,
+          seat_ids: order.seat_ids
         }
       end
 
@@ -138,11 +138,33 @@ describe API::V1::Orders do
         end
 
         it "returns the updated record" do
-          expect(parsed_response["name"]).to eq("Peter")
+          expect(parsed_response["name"]).to eq(order.name)
           expect(parsed_response["reduced_count"]).to eq(0)
-          expect(parsed_response["email"]).to eq("peter@mustermann.de")
+          expect(parsed_response["email"]).to eq(order.email)
         end
 
+        context "changing email address" do
+
+          let(:order_hash) do
+            {
+              name: order.name,
+              reduced_count: order.reduced_count,
+              email: "new@email.com",
+              seat_ids: order.seat_ids
+            }
+          end
+
+          it "should resend the email to the new address" do
+            expect(last_email.to).to include "new@email.com"
+          end
+        end
+
+        context "not changing email address" do
+
+          it "does not resend the email" do
+            expect(last_email).to be_nil
+          end
+        end
       end
 
       context "invalid parameters" do
