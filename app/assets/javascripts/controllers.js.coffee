@@ -83,6 +83,7 @@ app.controller "OrderController", ["$scope", "$routeParams", "$location", "Gig",
     $scope.selectedOrder.seats.push(seat)
 
   $scope.clickReservedSeat = (seat, order) ->
+    return if !$scope.session.loggedIn
     if order == $scope.selectedOrder
       $scope.selectedOrder.seats.remove(seat) unless $scope.selectedOrder.paid
     else
