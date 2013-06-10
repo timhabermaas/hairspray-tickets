@@ -54,7 +54,7 @@ describe Order do
   end
 
   describe "costs" do
-    it "returns" do
+    it "returns the total costs the customer has to pay" do
       order = Order.new
       order.stub(reduced_count: 1)
       order.stub(seats: [stub] * 3)
