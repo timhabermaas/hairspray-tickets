@@ -149,6 +149,12 @@ app.controller "OrderListController", ["$scope", ($scope) ->
   $scope.currentFilter = $scope.filters[0]
   $scope.selectFilter = (filter) ->
     $scope.currentFilter = filter
+
+  $scope.searchFunction = (order) ->
+    if $scope.search? and order.name? and order.id?
+      order.id.toString().indexOf($scope.search) != -1 or order.name.indexOf($scope.search) != -1
+    else
+      true
 ]
 
 app.controller "NewAccountController", ["$scope", "$location", "Account", ($scope, $location, Account) ->

@@ -7,10 +7,10 @@
   </ul>
   <div class="input-prepend">
     <span class="add-on"><i class="icon-search"></i></span>
-    <input type="search" ng-model="search.$" placeholder="Suche">
+    <input type="search" ng-model="search" placeholder="Suche">
   </div>
   <ul class="orders nav nav-tabs nav-stacked">
-    <li ng-repeat="order in orders | filter:currentFilter.f | filter:search | orderBy:'updated_at':true" ng-class="{active: selectedOrder === order}">
+    <li ng-repeat="order in orders | filter:currentFilter.f | filter:searchFunction | orderBy:'updated_at':true" ng-class="{active: selectedOrder === order}">
       <a href="" ng-click="selectOrder(order)">
         <span class="badge">
           {{order.id}}
