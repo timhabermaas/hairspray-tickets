@@ -5,7 +5,7 @@ class Order < ActiveRecord::Base
   validate :has_at_least_one_seat
 
   belongs_to :gig
-  has_many :reservations
+  has_many :reservations, :dependent => :destroy
   has_many :seats, :through => :reservations
 
   def paid?

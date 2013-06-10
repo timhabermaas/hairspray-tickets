@@ -53,12 +53,22 @@ describe Order do
     end
   end
 
-  describe "costs" do
+  describe "#costs" do
     it "returns the total costs the customer has to pay" do
       order = Order.new
       order.stub(reduced_count: 1)
       order.stub(seats: [stub] * 3)
       expect(order.costs(15, 12)).to eq(42)
+    end
+  end
+
+  describe "#destroy" do
+    let(:order) { FactoryGirl.create :order }
+
+    it "removes all associated reservations when being destroyed" do
+      expect {
+        order.destroy
+      }.to change(Reservation, :count).to(0)
     end
   end
 end
