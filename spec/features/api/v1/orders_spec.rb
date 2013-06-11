@@ -34,6 +34,7 @@ describe API::V1::Orders do
         expect(parsed_response).to have(1).item
         expect(parsed_response[0]["name"]).to eq("Dieter")
         expect(parsed_response[0]["paid"]).to eq(true)
+        expect(parsed_response[0]["email"]).to eq("peter@mustermann.de")
         expect(DateTime.parse(parsed_response[0]["paid_at"])).to eq(DateTime.new(2013, 4, 5))
         expect(parsed_response[0]["reduced_count"]).to eq(1)
       end
