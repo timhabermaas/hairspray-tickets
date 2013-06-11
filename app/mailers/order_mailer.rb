@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class OrderMailer < ActionMailer::Base
-  default from: "ticketing@hgr-musical.de"
+  default from: "ticketing@hgr-musical.de", bcc: "ticketing@hgr-musical.de"
 
   def ordered_email(order)
     @order = order
